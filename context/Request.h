@@ -1,6 +1,7 @@
 #ifndef WEB_FRAMEWORK_REQUEST_H
 #define WEB_FRAMEWORK_REQUEST_H
 
+
 #include <string>
 #include <map>
 #include <fcgiapp.h>
@@ -8,6 +9,7 @@
 class Request {
 public:
     FCGX_Request *request;
+    int socketId;
 
     std::map<std::string, std::string> *headers;
     std::string method;
@@ -24,7 +26,7 @@ public:
     std::string url;
     std::string href;
 
-    uint length;
+    int length;
     std::string type;
     std::string charset;
 
@@ -32,5 +34,6 @@ public:
 
     std::string get(std::string field);
 };
+
 
 #endif //WEB_FRAMEWORK_REQUEST_H
