@@ -28,14 +28,7 @@ static void *doit()
 
     for(;;)
     {
-
-        //попробовать получить новый запрос
-        printf("Try to accept new request\n");
-        printf("Try to accept new request11\n");
         rc = FCGX_Accept_r(&request);
-        printf("%i",rc);
-        printf("Try to accept new request222\n");
-        printf("Try to accept new request333\n");
 
         if(rc < 0)
         {
@@ -43,37 +36,12 @@ static void *doit()
             printf("Can not accept new request\n");
             break;
         }
-        printf("request is accepted\n");
-
-        // Получаем вход запроса
-        string input;
-        int len;
-        char *buf = new char[1024];
-        while ((len = FCGX_GetStr(buf, 1024, request.in)) > 0) {
-            for (int j = 0; j < len; ++j) input += buf[j];
-        }
-
-        cout << input << endl;
-
-        //получить значение переменной
-        server_name = FCGX_GetParam("SERVER_NAME", request.envp);
-        printf("%s", server_name);
         //вывести все HTTP-заголовки (каждый заголовок с новой строки)
         FCGX_PutS("Content-type: text/html\r\n", request.out);
         //между заголовками и телом ответа нужно вывести пустую строку
-        FCGX_PutS("\r\n", request.out);
+        //FCGX_PutS("\r\n", request.out);
         //вывести тело ответа (например - html-код веб-страницы)
-        FCGX_PutS("<html>\r\n", request.out);
-        FCGX_PutS("<head>\r\n", request.out);
-        FCGX_PutS("<title>FastCGI Hello! (multi-threaded C, fcgiapp library)</title>\r\n", request.out);
-        FCGX_PutS("</head>\r\n", request.out);
-        FCGX_PutS("<body>\r\n", request.out);
-        FCGX_PutS("<h1>FastCGI Hello! (multi-threaded C, fcgiapp library)</h1>\r\n", request.out);
-        FCGX_PutS("<p>Request accepted from host <i>", request.out);
-        FCGX_PutS(server_name ? server_name : "?", request.out);
-        FCGX_PutS("</i></p>\r\n", request.out);
-        FCGX_PutS("</body>\r\n", request.out);
-        FCGX_PutS("</html>\r\n", request.out);
+        //FCGX_PutS("ffxdzas\r\n", request.out);
 
         //"заснуть" - имитация многопоточной среды
 
@@ -102,7 +70,6 @@ int main(void)
         //ошибка при открытии сокета
         return 1;
     }
-    printf("Socket is opened\n");
 
     doit();
     return 0;
