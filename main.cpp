@@ -1,13 +1,14 @@
-#include <pthread.h>
 #include <sys/types.h>
 #include <stdio.h>
-
-#include "fcgi_config.h"
-#include "fcgiapp.h"
+#include <fcgiapp.h>
+#include <string>
+#include <iostream>
 
 
 #define THREAD_COUNT 2
 #define SOCKET_PATH "127.0.0.1:8000"
+
+using namespace std;
 
 //хранит дескриптор открытого сокета
 static int socketId;
@@ -43,6 +44,16 @@ static void *doit()
             break;
         }
         printf("request is accepted\n");
+
+        // Получаем вход запроса
+        string input;
+        int len;
+        char *buf = new char[1024];
+        while ((len = FCGX_GetStr(buf, 1024, request.in)) > 0) {
+            for (int j = 0; j < len; ++j) input += buf[j];
+        }
+
+        cout << input << endl;
 
         //получить значение переменной
         server_name = FCGX_GetParam("SERVER_NAME", request.envp);
