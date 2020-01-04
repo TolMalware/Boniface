@@ -1,8 +1,9 @@
 #include <sys/types.h>
-#include <stdio.h>
+#include <cstdio>
 #include <fcgiapp.h>
 #include <string>
 #include <iostream>
+#include <cstring>
 
 
 #define THREAD_COUNT 2
@@ -13,37 +14,34 @@ using namespace std;
 //хранит дескриптор открытого сокета
 static int socketId;
 
-static void *doit()
-{
+static void *doit() {
     int rc, i;
     FCGX_Request request;
     char *server_name;
 
-    if(FCGX_InitRequest(&request, socketId, 0) != 0)
-    {
+    if (FCGX_InitRequest(&request, socketId, 0) != 0) {
         //ошибка при инициализации структуры запроса
         printf("Can not init request\n");
         return NULL;
     }
 
-    for(;;)
-    {
-
+    for (;;) {
         //попробовать получить новый запрос
         printf("Try to accept new request\n");
-        printf("Try to accept new request11\n");
         rc = FCGX_Accept_r(&request);
-        printf("%i",rc);
-        printf("Try to accept new request222\n");
-        printf("Try to accept new request333\n");
+        printf("%i ", rc);
 
-        if(rc < 0)
-        {
+        if (rc < 0) {
             //ошибка при получении запроса
             printf("Can not accept new request\n");
             break;
         }
         printf("request is accepted\n");
+
+        // Вывод всех хедеров с дополнительными переменными FastCGI
+        char **env = request.envp;
+        while (*(++env))
+            puts(*env);
 
         // Получаем вход запроса
         string input;
@@ -57,9 +55,10 @@ static void *doit()
 
         //получить значение переменной
         server_name = FCGX_GetParam("SERVER_NAME", request.envp);
-        printf("%s", server_name);
         //вывести все HTTP-заголовки (каждый заголовок с новой строки)
-        FCGX_PutS("Content-type: text/html\r\n", request.out);
+        FCGX_PutS("Status: 200 OK\r\n", request.out);
+        FCGX_PutS("Content-Type: text/html\r\n", request.out);
+//        FCGX_PutS("Location: https://yandex.ru/\r\n", request.out);
         //между заголовками и телом ответа нужно вывести пустую строку
         FCGX_PutS("\r\n", request.out);
         //вывести тело ответа (например - html-код веб-страницы)
@@ -86,8 +85,7 @@ static void *doit()
     return NULL;
 }
 
-int main(void)
-{
+int main(void) {
     int i;
     pthread_t id[THREAD_COUNT];
 
@@ -97,8 +95,7 @@ int main(void)
 
     //открываем новый сокет
     socketId = FCGX_OpenSocket(SOCKET_PATH, 20);
-    if(socketId < 0)
-    {
+    if (socketId < 0) {
         //ошибка при открытии сокета
         return 1;
     }
