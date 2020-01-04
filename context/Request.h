@@ -8,7 +8,7 @@
 
 class Request {
 public:
-    FCGX_Request *request;
+    FCGX_Request *fcgxRequest;
     int socketId;
 
     std::map<std::string, std::string> *headers;
@@ -31,6 +31,8 @@ public:
     std::string charset;
 
     std::map<std::string, std::string> *query;
+
+    // TODO: params and body
 
     std::string get(std::string field);
 };
