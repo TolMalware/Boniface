@@ -6,6 +6,7 @@
 #include <map>
 
 class Response {
+public:
     int socketId;
 
     std::map<std::string, std::string> *headers;
@@ -21,6 +22,7 @@ class Response {
     void append(const std::string& field, const std::string& value);
     void remove(const std::string& field);
 
+    void send(int code);
     void send(const std::string& string);
     void send(const char *buffer, int len);
     // void send(Stream stream); TODO: Реализовать возможноность возвращать поток

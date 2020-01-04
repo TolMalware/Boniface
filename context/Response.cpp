@@ -30,6 +30,10 @@ void Response::remove(const std::string& field) {
     }
 }
 
+void Response::send(int code) {
+    this->status = code;
+}
+
 void Response::send(const std::string& string) {
     this->body = const_cast<char *>(string.c_str());
     this->length = string.length();
@@ -45,5 +49,6 @@ void Response::send(const std::map<std::string, std::string>& object) {
 }
 
 void Response::redirect(const std::string& url) {
-    // TODO: redirect
+    this->send(301);
+    this->set("Location", url);
 }
