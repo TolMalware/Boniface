@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <cstring>
+#include "app/MiddlewareManager.h"
 
 
 #define THREAD_COUNT 2
@@ -25,11 +26,21 @@ static void *doit() {
         return NULL;
     }
 
+    auto manager = new MiddlewareManager;
+    manager->middleware->push_back([](Context* context, const NextFunc& next) {
+        context->response->body = const_cast<char *>(context->request->url.c_str());
+        next();
+    });
+    manager->composeMiddleware();
+
     for (;;) {
         //попробовать получить новый запрос
         printf("Try to accept new request\n");
         rc = FCGX_Accept_r(&request);
         printf("%i ", rc);
+
+        auto context = new Context(&request);
+        manager->handleRequest(context);
 
         if (rc < 0) {
             //ошибка при получении запроса
@@ -71,6 +82,8 @@ static void *doit() {
         FCGX_PutS("<p>Request accepted from host <i>", request.out);
         FCGX_PutS(server_name ? server_name : "?", request.out);
         FCGX_PutS("</i></p>\r\n", request.out);
+        FCGX_PutS(context->response->body, request.out);
+        FCGX_PutS("\r\n", request.out);
         FCGX_PutS("</body>\r\n", request.out);
         FCGX_PutS("</html>\r\n", request.out);
 
