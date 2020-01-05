@@ -31,6 +31,8 @@ std::string convertHeaderName(const std::string& string) {
             result[i + 1] = std::toupper(result[i + 1]);
         }
     }
+
+    return result;
 }
 
 std::map<std::string, std::string>* parseHeaders(char** envp) {

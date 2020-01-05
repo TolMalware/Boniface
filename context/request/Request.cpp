@@ -13,7 +13,7 @@ Request::Request(FCGX_Request *request) {
 
     this->host = hostname + ':' + port;
     this->origin = protocol + host;
-    this->search = "?" + querystring;
+    this->search = querystring.empty() ? "" : "?" + querystring;
     this->url = path + search;
     this->href = origin + url;
 
