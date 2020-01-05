@@ -1,14 +1,19 @@
+#ifndef WEB_FRAMEWORK_APP_H
+#define WEB_FRAMEWORK_APP_H
+
 #include "fcgiapp.h"
+#include "../middleware/MiddlewareManager.h"
+
 static int socketId;
+
 class App {
+    MiddlewareManager *middlewareManager = new MiddlewareManager();
     FCGX_Request request{};
 
 public:
-    explicit App(const char *address);
-    void start();
-};
+    explicit App();
 
-#ifndef WEB_FRAMEWORK_APP_H
-#define WEB_FRAMEWORK_APP_H
+    void start(const char *address);
+};
 
 #endif //WEB_FRAMEWORK_APP_H
