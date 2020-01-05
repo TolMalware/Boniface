@@ -9,6 +9,7 @@ App::App() {
 
 void App::start(const char *address){
     socketId = FCGX_OpenSocket(address, 20);
+    middlewareManager->composeMiddleware();
     if(FCGX_InitRequest(&request, socketId, 0) != 0)
     {
         //ошибка при инициализации структуры запроса
@@ -17,11 +18,6 @@ void App::start(const char *address){
     while (true){
         auto rc = FCGX_Accept_r(&request);
         auto context = new Context(&request);
-        middlewareManager->middleware->push_back([](Context* context, const NextFunc& next) {
-            context->response->body = const_cast<char *>("Hello World!");
-            next();
-        });
-        middlewareManager->composeMiddleware();
         middlewareManager->handleRequest(context);
 
         if(rc < 0)

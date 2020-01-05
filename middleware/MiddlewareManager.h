@@ -15,7 +15,6 @@ public:
     static MiddlewareFunc compose(std::list<MiddlewareFunc> *middleware);
 
     MiddlewareManager();
-
     std::list<MiddlewareFunc>* middleware;
     MiddlewareFunc composedMiddleware;
 
