@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 #include <cstring>
-#include "app/MiddlewareManager.h"
+#include "middleware/MiddlewareManager.h"
 
 
 #define THREAD_COUNT 2
