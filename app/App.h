@@ -7,8 +7,8 @@
 static int socketId;
 
 class App {
-    MiddlewareManager *middlewareManager = new MiddlewareManager();
-    FCGX_Request request{};
+    MiddlewareManager *middlewareManager;
+    FCGX_Request request;
 
 public:
     explicit App();
