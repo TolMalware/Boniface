@@ -69,8 +69,7 @@ std::map<std::string, std::string>* parseQuery(const std::string& querystring) {
 
     split(querystring, items);
 
-    for (auto it = items.begin(); it != items.end(); ++it) {
-        std::string item = *it;
+    for (const auto& item : items) {
         auto idx = item.find('=');
         std::string name = item.substr(0, idx);
         std::string value = item.substr(idx, item.length());
