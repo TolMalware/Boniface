@@ -31,6 +31,6 @@ Request::Request(FCGX_Request *request) {
     }
 }
 
-std::string Request::get(std::string field) {
+std::string Request::get(const std::string& field) {
     return this->headers->at(field);
 }
