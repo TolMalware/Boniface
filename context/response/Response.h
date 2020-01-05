@@ -7,7 +7,7 @@
 
 class Response {
 public:
-    int socketId;
+    int socketId = 0; // TODO: Разобраться, зачем вообще это нужно и что это
 
     std::map<std::string, std::string> *headers;
     int status;
@@ -15,6 +15,8 @@ public:
 
     std::string type;
     int length;
+
+    Response();
 
     std::string get(const std::string& field);
     void set(const std::string& field, const std::string& value);

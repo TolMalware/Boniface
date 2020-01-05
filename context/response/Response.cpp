@@ -1,5 +1,12 @@
 #include "Response.h"
 
+Response::Response() {
+    this->headers = new std::map<std::string, std::string>;
+    this->status = 200;
+    this->body = nullptr;
+    this->length = 0;
+}
+
 std::string Response::get(const std::string& field) {
     return this->headers->at(field);
 }

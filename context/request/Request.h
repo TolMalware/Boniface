@@ -8,8 +8,8 @@
 
 class Request {
 public:
-    FCGX_Request *fcgxRequest;
-    int socketId;
+    // TODO: распарсить и закинуть в переменную все переменные окружения
+    int socketId = 0; // TODO: Разобраться, зачем вообще это нужно и что это
 
     std::map<std::string, std::string> *headers;
     std::string method;
@@ -18,23 +18,24 @@ public:
     std::string hostname;
     std::string port;
     std::string path;
-    std::string search;
+    std::string querystring;
 
     std::string host;
     std::string origin;
-    std::string querystring;
+    std::string search;
     std::string url;
     std::string href;
 
     int length;
     std::string type;
-    std::string charset;
 
     std::map<std::string, std::string> *query;
 
     // TODO: params and body
 
-    std::string get(std::string field);
+    explicit Request(FCGX_Request *request);
+
+    std::string get(const std::string& field);
 };
 
 
