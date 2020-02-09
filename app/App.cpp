@@ -1,5 +1,6 @@
 #include "App.h"
 #include <string>
+#include <iostream>
 #include "../context/Context.h"
 
 App::App() {
@@ -22,6 +23,7 @@ void App::start(const char *address){
 
         if(rc < 0)
         {
+            std::cout<<rc;
             //ошибка при получении запроса
             exit(10);
         }
