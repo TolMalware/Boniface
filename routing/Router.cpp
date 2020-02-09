@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Router.h"
 
 
@@ -12,15 +13,19 @@ std::list<MiddlewareFunc> *Router::getHandler(const std::string &url) {
     if (this->handlersMap->contains(url)) {
         return &this->handlersMap->at(url);
     }
-    return nullptr;
+    auto not_found = new std::list<MiddlewareFunc>;
+    not_found->emplace_back([](Context* context, const NextFunc& next) {
+        context->response->body = const_cast<char *>("404 aaaaaaaaa");
+        next();
+    });
+    return not_found;
 }
 
 MiddlewareFunc Router::getRoutingMiddleware() {
     return [this](Context *context, const NextFunc &next) {
         auto handler = this->getHandler(context->request->url);
-        if (handler) MiddlewareManager::compose(handler)(context, next);
-    };
-}
+        MiddlewareManager::compose(handler)(context, next);
+};}
 
 Router::Router() {
     handlersMap = new std::map<std::string, std::list<MiddlewareFunc>>;

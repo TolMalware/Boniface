@@ -7,7 +7,7 @@ MiddlewareManager::MiddlewareManager() {
 
 MiddlewareFunc MiddlewareManager::compose(std::list<MiddlewareFunc> *middleware) {
     return [middleware](Context *context, NextFunc next) {
-        if (middleware->empty()) return;
+            if (middleware->empty()) return;
 
         std::function<void(MiddlewareIterator&)> dispatch = [&dispatch, middleware, context, &next](MiddlewareIterator &it) -> void {
             MiddlewareFunc current = *it;
