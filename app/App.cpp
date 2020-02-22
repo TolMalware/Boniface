@@ -28,11 +28,13 @@ void App::start(const char *address){
             //ошибка при получении запроса
             exit(10);
         }
+        auto str_header = context->response->headers_to_string();
+        FCGX_PutS(str_header.c_str(), request.out);
         FCGX_PutS("Content-type: application/json\r\n\r\n", request.out);
         FCGX_PutS(context->response->body.c_str(), request.out);
         FCGX_PutS("\r\n\r\n", request.out);
 
-
+        std::cout<<"sdfghjhg";
         //close connection
         FCGX_Finish_r(&request);
     }

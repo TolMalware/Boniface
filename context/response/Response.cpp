@@ -54,7 +54,11 @@ void Response::send(const std::map<std::string, std::string>& object) {
 void Response::set_status(int code){
      this -> append("Status",std::to_string(code));
 }
-//void Response::redirect(const std::string& url) {
-//    this->send(301);
-//    this->set("Location", url);
-//}
+
+std::string Response::headers_to_string() {
+    std::string str_headers;
+    for (const auto& header: *this->headers){
+        str_headers += header.first + ": " + header.second + "\r\n";
+    }
+    return str_headers;
+}

@@ -28,8 +28,8 @@ public:
     void send(const char *buffer, int len);
     // void send(Stream stream); TODO: Реализовать возможноность возвращать поток
     void send(const std::map<std::string, std::string>& object);
-
     void redirect(const std::string& url);
+    std::string headers_to_string();
 };
 
 
