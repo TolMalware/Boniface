@@ -11,7 +11,7 @@ public:
 
     std::map<std::string, std::string> *headers;
     int status;
-    char *body;
+    std::string body;
 
     std::string type;
     int length;
@@ -23,7 +23,7 @@ public:
     void set(std::map<std::string, std::string>& fields);
     void append(const std::string& field, const std::string& value);
     void remove(const std::string& field);
-
+    void set_status(int code){};
     void send(int code);
     void send(const std::string& string);
     void send(const char *buffer, int len);
