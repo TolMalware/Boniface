@@ -3,7 +3,7 @@
 Response::Response() {
     this->headers = new std::map<std::string, std::string>;
     this->status = 200;
-    this->body = nullptr;
+    this->body = "";
     this->length = 0;
 }
 
@@ -37,10 +37,6 @@ void Response::remove(const std::string& field) {
     }
 }
 
-void Response::send(int code) {
-    this->status = code;
-}
-
 void Response::send(const std::string& string) {
     this->body = const_cast<char *>(string.c_str());
     this->length = string.length();
@@ -55,7 +51,10 @@ void Response::send(const std::map<std::string, std::string>& object) {
     // TODO: stringify json
 }
 
-void Response::redirect(const std::string& url) {
-    this->send(301);
-    this->set("Location", url);
+void Response::set_status(int code){
+     this -> append("Status",std::to_string(code));
 }
+//void Response::redirect(const std::string& url) {
+//    this->send(301);
+//    this->set("Location", url);
+//}

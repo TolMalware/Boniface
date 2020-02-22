@@ -15,7 +15,8 @@ std::list<MiddlewareFunc> *Router::getHandler(const std::string &url) {
     }
     auto not_found = new std::list<MiddlewareFunc>;
     not_found->emplace_back([](Context* context, const NextFunc& next) {
-        context->response->body = const_cast<char *>("404 aaaaaaaaa");
+        context->response->body ="404";
+        context->response->set_status(404);
         next();
     });
     return not_found;

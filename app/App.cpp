@@ -14,7 +14,8 @@ void App::start(const char *address){
     if(FCGX_InitRequest(&request, socketId, 0) != 0)
     {
         //ошибка при инициализации структуры запроса
-        printf("Can not init request\n");}
+        printf("Can not init request\n");
+    }
 
     while (true){
         auto rc = FCGX_Accept_r(&request);
@@ -27,19 +28,13 @@ void App::start(const char *address){
             //ошибка при получении запроса
             exit(10);
         }
-        FCGX_PutS("Content-type: text/html\r\n\r\n", request.out);
-        FCGX_PutS(context->response->body, request.out);
+        FCGX_PutS("Content-type: application/json\r\n\r\n", request.out);
+        FCGX_PutS(context->response->body.c_str(), request.out);
         FCGX_PutS("\r\n\r\n", request.out);
 
 
-        //закрыть текущее соединение
+        //close connection
         FCGX_Finish_r(&request);
     }
 
 }
-
-//int main(){
-//    auto app = App("127.0.0.1:8000");
-//    app.start();
-//
-//}

@@ -7,7 +7,7 @@
 static int socketId;
 
 class App {
-    FCGX_Request request;
+    FCGX_Request request{};
 
 public:
     explicit App();

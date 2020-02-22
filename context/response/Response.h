@@ -23,8 +23,7 @@ public:
     void set(std::map<std::string, std::string>& fields);
     void append(const std::string& field, const std::string& value);
     void remove(const std::string& field);
-    void set_status(int code){};
-    void send(int code);
+    void set_status(int code);
     void send(const std::string& string);
     void send(const char *buffer, int len);
     // void send(Stream stream); TODO: Реализовать возможноность возвращать поток
