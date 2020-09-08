@@ -4,11 +4,11 @@
 int main() {
     auto app = App();
     auto router =Router();
-    router.addHandler("/",[](Context* context, const NextFunc& next) {
-            std::cout<<context->request->method;
+    router.addHandler("/", static_cast<MiddlewareFunc>([](Context* context, const NextFunc& next) {
+//            std::cout<<;
             context->response->body = const_cast<char *>("Ylii Pelevin TOPCHEG!");
             next();
-        });
+        }), {"GET"});
     router.addHandler("/hello",[](Context* context, const NextFunc& next) {
         context->response->body = const_cast<char *>("Hello P");
         next();

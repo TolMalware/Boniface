@@ -1,7 +1,6 @@
 #include "App.h"
 #include <string>
 #include <iostream>
-#include "../context/Context.h"
 
 App::App() {
     FCGX_Init();
@@ -34,7 +33,6 @@ void App::start(const char *address){
         FCGX_PutS(context->response->body.c_str(), request.out);
         FCGX_PutS("\r\n\r\n", request.out);
 
-        std::cout<<"sdfghjhg";
         //close connection
         FCGX_Finish_r(&request);
     }
