@@ -41,7 +41,7 @@ std::map<std::string, std::string>* parseHeaders(char** envp) {
     while (*(++envp)) {
         std::string entry(*envp);
 
-        if (entry.starts_with("HTTP_")) {
+        if (entry.rfind("HTTP_",0)==0) {
             entry.erase(0, 5);
 
             auto idx = entry.find('=');

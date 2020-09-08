@@ -20,7 +20,7 @@ void Response::set(std::map<std::string, std::string>& fields) {
 }
 
 void Response::append(const std::string& field, const std::string& value) {
-    if (this->headers->contains(field)) {
+    if (this->headers->count(field)!=0) {
         std::string headerValue = this->get(field);
 
         this->set(field, value + ";" + field);

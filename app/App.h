@@ -2,6 +2,7 @@
 #define WEB_FRAMEWORK_APP_H
 
 #include "fcgiapp.h"
+
 #include "../middleware/MiddlewareManager.h"
 
 static int socketId;
