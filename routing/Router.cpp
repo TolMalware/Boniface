@@ -1,8 +1,9 @@
 #include <iostream>
+#include <vector>
 #include "Router.h"
 
 
-void Router::addHandler(const std::string &url, const MiddlewareFunc &handler) {
+void Router::addHandler(const std::string &url, const MiddlewareFunc &handler, const std::vector<std::string>& methods) {
     if (!this->handlersMap->count(url)!=0) {
         this->handlersMap->insert(std::pair<std::string, std::list<MiddlewareFunc>>(url, std::list<MiddlewareFunc>()));
     }

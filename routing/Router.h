@@ -5,15 +5,20 @@
 #include "../middleware/MiddlewareManager.h"
 #include <functional>
 #include <map>
-class Router{
-    std::map<std::string,std::list<MiddlewareFunc>>* handlersMap;
+#include <vector>
 
-    std::list<MiddlewareFunc> *getHandler(const std::string& url);
+class Router {
+    std::map<std::string, std::list<MiddlewareFunc>> *handlersMap;
+
+    std::list<MiddlewareFunc> *getHandler(const std::string &url);
 
 public:
-    void addHandler(const std::string& url,const MiddlewareFunc&);
     MiddlewareFunc getRoutingMiddleware();
 
     Router();
+
+    void addHandler(const std::string &url, const MiddlewareFunc &handler,
+                    const std::vector<std::string> &methods = {"POST", "GET", "PUT", "GET"});
 };
+
 #endif //WEB_FRAMEWORK_ROUTER_H
