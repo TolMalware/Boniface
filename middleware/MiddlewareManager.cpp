@@ -2,44 +2,72 @@
 #include "MiddlewareManager.h"
 
 MiddlewareManager::MiddlewareManager() {
-    this->middleware = new std::list<MiddlewareFunc>;
+    this->middlewares = new std::list<Middleware>;
 }
 
-MiddlewareFunc MiddlewareManager::compose(std::list<MiddlewareFunc> *middleware) {
-    return [middleware](Context *context, NextFunc next) {
-            if (middleware->empty()) return;
+Middleware MiddlewareManager::compose(std::list<Middleware> *middlewares) {
+    if (middlewares->empty()) {
+        return Middleware();
+    }
+    Context *context;
+    auto next = Middleware();
+    std::function<void(MiddlewareIterator &)> dispatch = [&dispatch, &middlewares, &context](MiddlewareIterator &it) -> Middleware {
+        Middleware nextMiddleware;
+        Middleware current = *it;
+        ++it;
+        MiddlewareIterator nextIt = it;
+        --it;
 
-        std::function<void(MiddlewareIterator&)> dispatch = [&dispatch, middleware, context, &next](MiddlewareIterator &it) -> void {
-            MiddlewareFunc current = *it;
-            ++it;
-            MiddlewareIterator nextIt = it;
-            --it;
+        if (nextIt != middlewares->end()) {
+            nextMiddleware = [&dispatch, &nextIt]() {
+                dispatch(nextIt);
+            };
+        } else {
+            nextMiddleware = next;
+        }
 
-            NextFunc nextFunc = []() {};
-
-            if (nextIt != middleware->end()) {
-                nextFunc = [&dispatch, &nextIt]() {
-                    dispatch(nextIt);
-                };
-            } else {
-                nextFunc = next;
-            }
-
-            current(context, nextFunc);
-        };
-
-        MiddlewareIterator it = middleware->begin();
-        dispatch(it);
+        current.handler(context, nextMiddleware);
     };
+
+    MiddlewareIterator it = middlewares->begin();
+    dispatch(it);
+    return Middleware();
+
 }
+//    return [middlewares](Context *context, Middleware middleware) {
+//            if (middlewares->empty()) return;
+//
+//        std::function<void(MiddlewareIterator&)> dispatch = [&dispatch, middleware, context, &next](MiddlewareIterator &it) -> void {
+//            Middleware current = *it;
+//            ++it;
+//            MiddlewareIterator nextIt = it;
+//            --it;
+//
+//            Middleware nextMiddleware;
+//
+//            if (nextIt != middleware->end()) {
+//                nextMiddleware= [&dispatch, &nextIt]() {
+//                    dispatch(nextIt);
+//                };
+//            } else {
+//                nextMiddleware = next;
+//            }
+//
+//            current(context, nextMiddleware);
+//        };
+//
+//        MiddlewareIterator it = middleware->begin();
+//        dispatch(it);
+//    };
+//}
 
 void MiddlewareManager::handleRequest(Context *context) {
     // TODO: error handling
-    this->composedMiddleware(context, []() {
+    this->composedMiddlewares.handler(context, []() {
         std::cout << "Request handled" << std::endl;
     });
 }
 
 void MiddlewareManager::composeMiddleware() {
-    this->composedMiddleware = MiddlewareManager::compose(this->middleware);
+    this->composedMiddlewares = MiddlewareManager::compose(this->middlewares);
 }
