@@ -3,16 +3,18 @@
 #include "Router.h"
 
 
-void Router::addHandler(const std::string &url, const MiddlewareFunc &handler, const std::vector<std::string>& methods) {
-    if (this->handlersMap->count(url)==0) {
-        this->handlersMap->insert(std::pair<std::string, std::list<MiddlewareFunc>>(url, {}));
+void Router::addHandler(const std::string &url, const MiddlewareFunc &handler) {
+    if (this->handlers_map->count(url) == 0) {
+        this->handlers_map->insert(std::pair<std::string, std::list<MiddlewareFunc>>(url, {}));
     }
-    this->handlersMap->at(url).push_back(handler);
+    this->handlers_map->at(url).push_back(handler);
+    this->allowed_methods_map->insert(std::pair<MiddlewareFunc, std::vector<std::string>>(handler,{}));
+    this->handlers_map->at(url).push_back(handler);
 }
 
 std::list<MiddlewareFunc> *Router::getHandler(const std::string &url) {
-    if (this->handlersMap->count(url)!=0) {
-        return &this->handlersMap->at(url);
+    if (this->handlers_map->count(url) != 0) {
+        return &this->handlers_map->at(url);
     }
     auto not_found = new std::list<MiddlewareFunc>;
     not_found->emplace_back([](Context* context, const NextFunc& next) {
@@ -30,5 +32,5 @@ MiddlewareFunc Router::getRoutingMiddleware() {
 };}
 
 Router::Router() {
-    handlersMap = new std::map<std::string, std::list<MiddlewareFunc>>;
+    handlers_map = new std::map<std::string, std::list<MiddlewareFunc>>;
 }
