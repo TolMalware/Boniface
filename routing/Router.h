@@ -9,8 +9,7 @@
 
 
 class Router {
-    std::map<std::string, std::list<MiddlewareFunc>> *handlers_map;
-    std::map<MiddlewareFunc, std::vector<std::string>> *allowed_methods_map;
+    std::map<std::string, std::list<MiddlewareFunc>> *handlers_map;;
     std::list<MiddlewareFunc> *getHandler(const std::string &url);
 
 public:

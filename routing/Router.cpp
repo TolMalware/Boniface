@@ -8,8 +8,6 @@ void Router::addHandler(const std::string &url, const MiddlewareFunc &handler) {
         this->handlers_map->insert(std::pair<std::string, std::list<MiddlewareFunc>>(url, {}));
     }
     this->handlers_map->at(url).push_back(handler);
-    this->allowed_methods_map->insert(std::pair<MiddlewareFunc, std::vector<std::string>>(handler,{}));
-    this->handlers_map->at(url).push_back(handler);
 }
 
 std::list<MiddlewareFunc> *Router::getHandler(const std::string &url) {
