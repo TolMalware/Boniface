@@ -3,22 +3,22 @@
 #include "Router.h"
 
 
-void Router::addHandler(const std::string &url, const MiddlewareFunc &handler, ) {
-    if (this->handlers_map->count(url) == 0) {
-        this->handlers_map->insert(std::pair<std::string, std::list<MiddlewareFunc>>(url, {}));
+void Router::addHandler(const std::string &url, const MiddlewareFunc &handler,
+                        const std::vector<std::string>& methods) {
+    if (this->handlers_map->count(url_with_methods(url, methods)) == 0) {
+        this->handlers_map->insert(std::pair<url_with_methods , std::list<MiddlewareFunc>>(url_with_methods(url, methods), {}));
     }
-    this->handlers_map->at(url).push_back(handler);
-    this->allowed_methods_map->insert(std::pair<MiddlewareFunc, std::vector<std::string>>(handler,{}));
-    this->handlers_map->at(url).push_back(handler);
+    this->handlers_map->at(url_with_methods(url, methods)).push_back(handler);
+    this->handlers_map->at(url_with_methods(url, methods)).push_back(handler);
 }
 
-std::list<MiddlewareFunc> *Router::getHandler(const std::string &url) {
-    if (this->handlers_map->count(url) != 0) {
-        return &this->handlers_map->at(url);
+std::list<MiddlewareFunc> *Router::getHandler(const url_with_methods& key) {
+    if (this->handlers_map->count(key) != 0) {
+        return &this->handlers_map->at(key);
     }
     auto not_found = new std::list<MiddlewareFunc>;
-    not_found->emplace_back([](Context* context, const NextFunc& next) {
-        context->response->body ="404";
+    not_found->emplace_back([](Context *context, const NextFunc &next) {
+        context->response->body = "404";
         context->response->set_status(404);
         next();
     });
@@ -27,10 +27,11 @@ std::list<MiddlewareFunc> *Router::getHandler(const std::string &url) {
 
 MiddlewareFunc Router::getRoutingMiddleware() {
     return [this](Context *context, const NextFunc &next) {
-        auto handler = this->getHandler(context->request->url);
+        auto handler = this->getHandler(url_with_methods(context->request->url, {context->request->method}));
         MiddlewareManager::compose(handler)(context, next);
-};}
+    };
+}
 
 Router::Router() {
-    handlers_map = new std::map<std::string, std::list<MiddlewareFunc>>;
+    handlers_map = new std::map<url_with_methods, std::list<MiddlewareFunc>>;
 }
