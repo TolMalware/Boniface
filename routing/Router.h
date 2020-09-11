@@ -8,6 +8,8 @@
 #include <vector>
 
 
+using url_with_methods = std::pair<std::string, std::vector<std::string>>;
+
 class Router {
     std::map<std::string, std::list<MiddlewareFunc>> *handlers_map;
     std::map<MiddlewareFunc, std::vector<std::string>> *allowed_methods_map;
