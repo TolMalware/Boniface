@@ -7,13 +7,11 @@
 #include <map>
 #include <vector>
 
-
-using url_with_methods = std::pair<std::string, std::vector<std::string>>;
-
 class Router {
-    std::map<url_with_methods, std::list<MiddlewareFunc>> *handlers_map;
+    std::map<std::string, std::list<MiddlewareFunc>> *handlers_map;
+    std::map<std::string, std::vector<std::string>> *allowed_methods_map;
 
-    std::list<MiddlewareFunc> *getHandler(url_with_methods key);
+    std::list<MiddlewareFunc> *getHandler(const std::string& key, const std::string &method);
 
 public:
     MiddlewareFunc getRoutingMiddleware();
@@ -21,7 +19,7 @@ public:
     Router();
 
     void addHandler(const std::string &url, const MiddlewareFunc &handler,
-                    std::vector<std::string> methods = {"GET", "POST", "PUT", "DELETE"});
+                    const std::vector<std::string>& methods = {"GET", "POST", "PUT", "DELETE"});
 };
 
 #endif //WEB_FRAMEWORK_ROUTER_H
