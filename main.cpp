@@ -7,7 +7,7 @@ int main() {
     auto app = App();
     auto router = Router();
     auto f = [](Context *context, const NextFunc &next) {
-        context->write("Hello");
+        context->write(context->request->body["mitms"]);
         next();
     };
     router.addHandler("/", f);

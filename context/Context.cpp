@@ -6,8 +6,8 @@ Context::Context(FCGX_Request* fcgxRequest) {
     this->state = new std::map<std::string, void*>;
 }
 
-void Context::write(const std::string& body) {
-    this->response->body = body;
+void Context::write(nlohmann::json data) {
+    this->response->body = data.dump();
 }
 
 
