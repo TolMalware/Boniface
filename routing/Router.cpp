@@ -4,17 +4,16 @@
 
 
 void Router::addHandler(const std::string &url, const MiddlewareFunc &handler,
-                        const std::vector<std::string>& methods) {
-    if (this->handlers_map->count(url_with_methods(url, methods)) == 0) {
-        this->handlers_map->insert(std::pair<url_with_methods , std::list<MiddlewareFunc>>(url_with_methods(url, methods), {}));
+                        std::vector<std::string> methods) {
+    if (this->handlers_map->count({url, methods}) == 0) {
+        this->handlers_map->insert({{url, methods}, {}});
     }
-    this->handlers_map->at(url_with_methods(url, methods)).push_back(handler);
-    this->handlers_map->at(url_with_methods(url, methods)).push_back(handler);
+    this->handlers_map->at(std::make_pair(url, methods)).push_back(handler);
 }
 
-std::list<MiddlewareFunc> *Router::getHandler(const url_with_methods& key) {
-    if (this->handlers_map->count(key) != 0) {
-        return &this->handlers_map->at(key);
+std::list<MiddlewareFunc> *Router::getHandler(url_with_methods key) {
+    if (this->handlers_map->count({key.first, key.second}) != 0) {
+        return &this->handlers_map->at({key.first, key.second});
     }
     auto not_found = new std::list<MiddlewareFunc>;
     not_found->emplace_back([](Context *context, const NextFunc &next) {
@@ -27,7 +26,7 @@ std::list<MiddlewareFunc> *Router::getHandler(const url_with_methods& key) {
 
 MiddlewareFunc Router::getRoutingMiddleware() {
     return [this](Context *context, const NextFunc &next) {
-        auto handler = this->getHandler(url_with_methods(context->request->url, {context->request->method}));
+        auto handler = this->getHandler({context->request->url, {context->request->method}});
         MiddlewareManager::compose(handler)(context, next);
     };
 }
