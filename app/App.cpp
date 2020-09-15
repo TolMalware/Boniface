@@ -1,22 +1,26 @@
 #include "App.h"
 #include <string>
+#include <future>
 #include <iostream>
+#include <thread>
 
+std::mutex mtx;
 App::App() {
     FCGX_Init();
     middlewareManager = new MiddlewareManager();
 }
 
-void App::start(const char *address){
-    socketId = FCGX_OpenSocket(address, 20);
-    middlewareManager->composeMiddleware();
+
+void App::run(){
+    FCGX_Request request;
+    std::cout<<"thread start";
     if(FCGX_InitRequest(&request, socketId, 0) != 0)
     {
         //ошибка при инициализации структуры запроса
         printf("Can not init request\n");
     }
-
     while (true){
+//        FCGX_Request request;
         auto rc = FCGX_Accept_r(&request);
         auto context = new Context(&request);
         middlewareManager->handleRequest(context);
@@ -37,4 +41,17 @@ void App::start(const char *address){
         FCGX_Finish_r(&request);
     }
 
+}
+
+void App::start(const char *address){
+    socketId = FCGX_OpenSocket(address, 20);
+    middlewareManager->composeMiddleware();
+    std::vector<std::thread> clients;
+    for (int i=0; i<2; i++){
+        std::thread T(&App::run, this);
+        clients.push_back(std::move(T));
+    }
+    for (auto &t:clients) {
+        t.join();
+    }
 }
