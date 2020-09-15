@@ -5,3 +5,7 @@ build
 /build
 CMakeFiles
 /CMakeFiles
+Boniface
+Boniface.cbp
+CMakeCache.txt
+cmake_install.cmake
