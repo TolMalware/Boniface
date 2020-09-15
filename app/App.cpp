@@ -31,7 +31,7 @@ void App::start(const char *address){
         FCGX_PutS(str_header.c_str(), request.out);
         FCGX_PutS("Content-type: application/json\r\n\r\n", request.out);
         FCGX_PutS(context->response->body.c_str(), request.out);
-        FCGX_PutS("\r\n\r\n", request.out);
+//        FCGX_PutS("\r\n\r\n", request.out);
 
         //close connection
         FCGX_Finish_r(&request);

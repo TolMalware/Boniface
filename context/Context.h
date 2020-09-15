@@ -13,7 +13,8 @@ public:
 
     Context(FCGX_Request* fcgxRequest);
 
-    void write(nlohmann::json);
+    void write(const nlohmann::json& data);
+    void write(const std::string& data);
 };
 
 

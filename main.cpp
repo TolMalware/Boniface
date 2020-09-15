@@ -12,7 +12,7 @@ int main() {
 //    };
 //    router.addHandler("/", f);
     router.addHandler("/", [](Context *context, const NextFunc &next) {
-        context->response->body = const_cast<char *>("Hello P");
+        context->write(std::string("Hello"));
         next();
     });
 
