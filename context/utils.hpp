@@ -69,15 +69,19 @@ int parseInt(char *string) {
 
 nlohmann::json getBody(FCGX_Request *request) {
     auto len = parseInt(FCGX_GetParam("CONTENT_LENGTH", request->envp));
-    char content[len];
-    for (int i =0;i<len;i++) {
-        auto ch = FCGX_GetChar(request->in);
-        content[i] = ch;
-    }
-    content[len] = '\0';
+    if (len > 0) {
+        char content[len];
+        for (int i = 0; i < len; i++) {
+            auto ch = FCGX_GetChar(request->in);
+            content[i] = ch;
+        }
+        content[len] = '\0';
 
-    auto body = std::string(content);
-    return nlohmann::json::parse(body);
+        auto body = std::string(content);
+        return nlohmann::json::parse(body);
+    } else {
+        return nlohmann::json();
+    }
 };
 
 
