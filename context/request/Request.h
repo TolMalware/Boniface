@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <fcgiapp.h>
+#include "../../json/json.hpp"
 
 class Request {
 public:
@@ -19,12 +20,14 @@ public:
     std::string port;
     std::string path;
     std::string querystring;
+    nlohmann::json body;
 
     std::string host;
     std::string origin;
     std::string search;
     std::string url;
     std::string href;
+
 
     int length;
     std::string type;

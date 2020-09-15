@@ -3,20 +3,24 @@
 #include <iterator>
 #include <sstream>
 #include <list>
+#include <iostream>
 #include <map>
+#include <fcgio.h>
 
-template <class Container>
-void split(const std::string& str, Container& cont)
-{
+
+const unsigned long STDIN_MAX = 1000000;
+
+template<class Container>
+void split(const std::string &str, Container &cont) {
     std::istringstream iss(str);
     std::copy(
-        std::istream_iterator<std::string>(iss),
-        std::istream_iterator<std::string>(),
-        std::back_inserter(cont)
+            std::istream_iterator<std::string>(iss),
+            std::istream_iterator<std::string>(),
+            std::back_inserter(cont)
     );
 }
 
-std::string convertHeaderName(const std::string& string) {
+std::string convertHeaderName(const std::string &string) {
     int len = string.length();
 
     if (len == 0) return string;
@@ -35,13 +39,13 @@ std::string convertHeaderName(const std::string& string) {
     return result;
 }
 
-std::map<std::string, std::string>* parseHeaders(char** envp) {
+std::map<std::string, std::string> *parseHeaders(char **envp) {
     auto headers = new std::map<std::string, std::string>;
 
     while (*(++envp)) {
         std::string entry(*envp);
 
-        if (entry.rfind("HTTP_",0)==0) {
+        if (entry.rfind("HTTP_", 0) == 0) {
             entry.erase(0, 5);
 
             auto idx = entry.find('=');
@@ -55,21 +59,35 @@ std::map<std::string, std::string>* parseHeaders(char** envp) {
     return headers;
 }
 
-int parseInt(char* string) {
+int parseInt(char *string) {
     try {
         return std::stoi(string);
-    } catch(std::invalid_argument&) {
+    } catch (std::invalid_argument &) {
         return 0;
     }
 }
 
-std::map<std::string, std::string>* parseQuery(const std::string& querystring) {
+nlohmann::json getBody(FCGX_Request *request) {
+    auto len = parseInt(FCGX_GetParam("CONTENT_LENGTH", request->envp));
+    char content[len];
+    for (int i =0;i<len;i++) {
+        auto ch = FCGX_GetChar(request->in);
+        content[i] = ch;
+    }
+    content[len] = '\0';
+
+    auto body = std::string(content);
+    return nlohmann::json::parse(body);
+};
+
+
+std::map<std::string, std::string> *parseQuery(const std::string &querystring) {
     auto result = new std::map<std::string, std::string>;
     std::list<std::string> items;
 
     split(querystring, items);
 
-    for (const auto& item : items) {
+    for (const auto &item : items) {
         auto idx = item.find('=');
         std::string name = item.substr(0, idx);
         std::string value = item.substr(idx, item.length());

@@ -12,6 +12,8 @@ public:
     std::map<std::string, void*> *state;
 
     Context(FCGX_Request* fcgxRequest);
+
+    void write(nlohmann::json);
 };
 
 

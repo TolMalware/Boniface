@@ -7,19 +7,17 @@
 #include <map>
 #include <vector>
 
-class Router {
-    std::map<std::string, std::list<MiddlewareFunc>> *handlers_map;
-    std::map<std::string, std::vector<std::string>> *allowed_methods_map;
 
-    std::list<MiddlewareFunc> *getHandler(const std::string& key, const std::string &method);
+class Router {
+    std::map<std::string, std::list<MiddlewareFunc>> *handlers_map;;
+    std::list<MiddlewareFunc> *getHandler(const std::string &url);
 
 public:
     MiddlewareFunc getRoutingMiddleware();
 
     Router();
 
-    void addHandler(const std::string &url, const MiddlewareFunc &handler,
-                    const std::vector<std::string>& methods = {"GET", "POST", "PUT", "DELETE"});
+    void addHandler(const std::string &url, const MiddlewareFunc &handler);
 };
 
 #endif //WEB_FRAMEWORK_ROUTER_H

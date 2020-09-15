@@ -1,12 +1,13 @@
 #include "app/App.h"
 #include "routing/Router.h"
+#include "json/json.hpp"
 #include <iostream>
 
 int main() {
     auto app = App();
     auto router = Router();
     auto f = [](Context *context, const NextFunc &next) {
-        context->response->body = const_cast<char *>("Ylii Pelevin TOPCHEG!");
+        context->write(context->request->body["mitms"]);
         next();
     };
 //    router.addHandler("/", f);
