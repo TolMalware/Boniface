@@ -1,8 +1,6 @@
 #include "App.h"
-#include <string>
 #include <future>
 #include <iostream>
-#include <thread>
 
 std::mutex mtx;
 App::App() {
@@ -11,23 +9,18 @@ App::App() {
 }
 
 
-void App::run(){
+void App::run() const{
     FCGX_Request request;
-    std::cout<<"thread start";
     if(FCGX_InitRequest(&request, socketId, 0) != 0)
     {
-        //ошибка при инициализации структуры запроса
         printf("Can not init request\n");
     }
     while (true){
-//        FCGX_Request request;
         auto rc = FCGX_Accept_r(&request);
         auto context = new Context(&request);
         middlewareManager->handleRequest(context);
 
-        if(rc < 0)
-        {
-            std::cout<<rc;
+        if(rc < 0){
             //ошибка при получении запроса
             exit(10);
         }
@@ -35,9 +28,6 @@ void App::run(){
         FCGX_PutS(str_header.c_str(), request.out);
         FCGX_PutS("Content-type: application/json\r\n\r\n", request.out);
         FCGX_PutS(context->response->body.c_str(), request.out);
-//        FCGX_PutS("\r\n\r\n", request.out);
-
-        //close connection
         FCGX_Finish_r(&request);
     }
 

@@ -33,7 +33,7 @@ MiddlewareFunc MiddlewareManager::compose(std::list<MiddlewareFunc> *middleware)
     };
 }
 
-void MiddlewareManager::handleRequest(Context *context) {
+void MiddlewareManager::handleRequest(Context *context) const {
     // TODO: error handling
     this->composedMiddleware(context, []() {
         std::cout << "Request handled" << std::endl;

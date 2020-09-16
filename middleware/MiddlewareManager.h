@@ -18,7 +18,7 @@ public:
     std::list<MiddlewareFunc>* middleware;
     MiddlewareFunc composedMiddleware;
 
-    void handleRequest(Context* context);
+    void handleRequest(Context* context) const;
     void composeMiddleware();
 };
 

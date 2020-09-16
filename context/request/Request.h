@@ -38,7 +38,7 @@ public:
 
     explicit Request(FCGX_Request *request);
 
-    std::string get(const std::string& field);
+    std::string get(const std::string& field) const;
 };
 
 

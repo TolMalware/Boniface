@@ -18,18 +18,18 @@ public:
 
     Response();
 
-    std::string get(const std::string& field);
-    void set(const std::string& field, const std::string& value);
+    std::string get(const std::string& field) const;
+    void set(const std::string& field, const std::string& value) const;
     void set(std::map<std::string, std::string>& fields);
     void append(const std::string& field, const std::string& value);
-    void remove(const std::string& field);
+    void remove(const std::string& field) const;
     void set_status(int code);
     void send(const std::string& string);
     void send(const char *buffer, int len);
     // void send(Stream stream); TODO: Реализовать возможноность возвращать поток
     void send(const std::map<std::string, std::string>& object);
     void redirect(const std::string& url);
-    std::string headers_to_string();
+    std::string headers_to_string() const;
 };
 
 

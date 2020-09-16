@@ -4,7 +4,7 @@
 #include <iostream>
 #include <thread>
 
-int main() {
+int main(int argc, char *argv[]) {
     auto app = App();
     auto router = Router();
 //    auto f = [](Context *context, const NextFunc &next) {

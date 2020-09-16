@@ -7,12 +7,12 @@ Response::Response() {
     this->length = 0;
 }
 
-std::string Response::get(const std::string& field) {
+std::string Response::get(const std::string& field) const {
     return this->headers->at(field);
 }
 
-void Response::set(const std::string& field, const std::string& value) {
-    this->headers->insert(std::pair<std::string, std::string>(field, value));
+void Response::set(const std::string& field, const std::string& value) const {
+    this->headers->insert({field, value});
 }
 
 void Response::set(std::map<std::string, std::string>& fields) {
@@ -29,7 +29,7 @@ void Response::append(const std::string& field, const std::string& value) {
     }
 }
 
-void Response::remove(const std::string& field) {
+void Response::remove(const std::string& field) const {
     auto it = this->headers->find(field);
 
     if (it != this->headers->end()) {
@@ -39,7 +39,7 @@ void Response::remove(const std::string& field) {
 
 void Response::send(const std::string& string) {
     this->body = const_cast<char *>(string.c_str());
-    this->length = string.length();
+    this->length = static_cast<int>(string.length());
 }
 
 void Response::send(const char *buffer, int len) {
@@ -55,7 +55,7 @@ void Response::set_status(int code){
      this -> append("Status",std::to_string(code));
 }
 
-std::string Response::headers_to_string() {
+std::string Response::headers_to_string() const {
     std::string str_headers;
     for (const auto& header: *this->headers){
         str_headers += header.first + ": " + header.second + "\r\n";

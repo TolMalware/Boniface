@@ -12,7 +12,7 @@ class App {
 
 public:
     explicit App();
-    void run();
+    void run() const;
     void start(const char *address);
 
     MiddlewareManager *middlewareManager;
