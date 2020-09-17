@@ -1,8 +1,5 @@
-#include "app/App.h"
-#include "routing/Router.h"
-#include "json/json.hpp"
-#include <iostream>
-#include <thread>
+#include "../app/App.h"
+#include "../routing/Router.h"
 
 int main(int argc, char *argv[]) {
     auto app = App();
