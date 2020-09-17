@@ -4,7 +4,7 @@
 Request::Request(FCGX_Request *request) {
     this->headers = parseHeaders(request->envp);
     this->method = std::string(FCGX_GetParam("REQUEST_METHOD", request->envp));
-    this->body=getBody(request);
+    this->body=get_body(request);
 
     this->protocol = std::string(FCGX_GetParam("REQUEST_SCHEME", request->envp));
     this->hostname = std::string(FCGX_GetParam("SERVER_NAME", request->envp));

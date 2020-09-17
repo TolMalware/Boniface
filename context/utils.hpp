@@ -67,7 +67,7 @@ int parseInt(char *string) {
     }
 }
 
-nlohmann::json getBody(FCGX_Request *request) {
+std::string get_body(FCGX_Request *request) {
     auto len = parseInt(FCGX_GetParam("CONTENT_LENGTH", request->envp));
     if (len > 0) {
         char content[len];
@@ -77,10 +77,9 @@ nlohmann::json getBody(FCGX_Request *request) {
         }
         content[len] = '\0';
 
-        auto body = std::string(content);
-        return nlohmann::json::parse(body);
+        return std::string(content);
     } else {
-        return nlohmann::json();
+        return std::string();
     }
 };
 

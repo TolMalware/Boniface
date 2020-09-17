@@ -20,7 +20,7 @@ public:
     std::string port;
     std::string path;
     std::string querystring;
-    nlohmann::json body;
+    std::string body;
 
     std::string host;
     std::string origin;
