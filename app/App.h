@@ -8,14 +8,14 @@
 static int socketId;
 
 class App {
-//    FCGX_Request request{};
 
 public:
-    explicit App();
-    void run() const;
-    void start(const char *address);
+    App();
 
-    MiddlewareManager *middlewareManager;
+    MiddlewareManager middlewareManager;
+
+    void run();
+    void start(const char *address);
 };
 
 #endif //WEB_FRAMEWORK_APP_H

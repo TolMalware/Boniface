@@ -1,15 +1,14 @@
 #include "../app/App.h"
-#include "../routing/Router.h"
+//#include "../routing/Router.h"
 
-int main(int argc, char *argv[]) {
+int main() {
     auto app = App();
-    auto router = Router();
-    router.addHandler("/", [](Context *context, const NextFunc &next) {
-        context->write(nlohmann::json::parse(context->request->body)["mitms"].dump());
-        next();
-    });
-
-    app.middlewareManager->middleware->push_back(router.getRoutingMiddleware());
+//    auto router = Router();
+//    router.addHandler("/", [](Context *context) {
+//        context->write(nlohmann::json::parse(context->request->body)["mitms"].dump());
+//    });
+//
+//    app.middlewareManager->middlewares->push_back(router.getRoutingMiddleware());
 
     app.start("127.0.0.1:8000");
     return 0;

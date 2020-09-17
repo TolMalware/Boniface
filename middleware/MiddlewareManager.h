@@ -7,18 +7,30 @@
 #include "../context/Context.h"
 
 using NextFunc = std::function<void(void)>;
-using MiddlewareFunc = std::function<void(Context*, NextFunc)>;
+using MiddlewareFunc = std::function<void(Context*)>;
 using MiddlewareIterator = std::_List_iterator<MiddlewareFunc>;
+
+class Middleware{
+public:
+    Middleware();
+
+    Middleware* nextMiddleware{};
+    std::string methods;
+    MiddlewareFunc handler;
+    explicit Middleware(MiddlewareFunc handler);
+    void handle_request(Context* context);
+};
 
 class MiddlewareManager {
 public:
-    static MiddlewareFunc compose(std::list<MiddlewareFunc> *middleware);
 
     MiddlewareManager();
-    std::list<MiddlewareFunc>* middleware;
-    MiddlewareFunc composedMiddleware;
 
-    void handleRequest(Context* context) const;
+    static Middleware compose(std::list<Middleware> *middleware);
+    std::list<Middleware>* middlewares = new std::list<Middleware>;
+    Middleware composedMiddleware;
+
+    void handleRequest(Context* context);
     void composeMiddleware();
 };
 

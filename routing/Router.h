@@ -9,15 +9,16 @@
 
 
 class Router {
-    std::map<std::string, std::list<MiddlewareFunc>> *handlers_map;;
-    std::list<MiddlewareFunc> *getHandler(const std::string &url);
+    std::map<std::string, std::list<Middleware>> *handlers_map;;
+    std::list<Middleware> *getHandler(const std::string &url);
 
 public:
-    MiddlewareFunc getRoutingMiddleware();
+    Middleware getRoutingMiddleware();
 
     Router();
 
-    void addHandler(const std::string &url, const MiddlewareFunc &handler);
+//    void addHandler(const std::string &url, const Middleware &handler);
+    void addHandler(const std::string &url, const MiddlewareFunc& handler);
 };
 
 #endif //WEB_FRAMEWORK_ROUTER_H
