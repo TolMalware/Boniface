@@ -61,13 +61,12 @@ MiddlewareManager::MiddlewareManager() {
 }
 
 void Middleware::handle_request(Context *context){
-    std::cout << this->methods << std::endl;
+//    std::cout << this->methods << std::endl;
     handler = [this](Context *context) { context->write(std::string("hi")); };
-    this->handler(context);
-//    if (this->nextMiddleware != nullptr) {
-//        exit(152);
-//        this->nextMiddleware->handle_request(context);
-//    }
+    handler(context);
+    if (this->nextMiddleware != nullptr) {
+        this->nextMiddleware->handle_request(context);
+    }
 
 }
 
@@ -76,7 +75,13 @@ Middleware::Middleware(MiddlewareFunc handler) {
 }
 
 Middleware::Middleware() {
-    this->methods = "ddeded";
-    this->handler = [this](Context *context) { context->write(std::string("hi")); };
+    methods = "ddeded";
+    handler = [](Context *context) {
+        exit(23);
+        std::cout<<"111111111";
+        context->write(std::string("hi")); };
+//    auto a = new Context();
+//    handler(a);
+//    exit(14);
 
 }

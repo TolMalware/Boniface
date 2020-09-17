@@ -10,5 +10,9 @@ void Context::write(const std::string &data) const {
     this->response->body = data;
 }
 
+Context::Context() {
+
+}
+
 
 

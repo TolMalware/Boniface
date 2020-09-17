@@ -7,13 +7,13 @@
 
 class Context {
 public:
+    Context();
+
     Request *request;
     Response *response;
     std::map<std::string, void*> *state;
 
     explicit Context(FCGX_Request* fcgxRequest);
-
-    void write(const nlohmann::json& data) const;
     void write(const std::string& data) const;
 };
 

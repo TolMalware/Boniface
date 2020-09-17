@@ -15,10 +15,13 @@ void App::run(){
     {
         printf("Can not init request\n");
     }
+    auto a = new Context();
+    middlewareManager.composedMiddleware.handler(a);
     while (true){
         auto rc = FCGX_Accept_r(&request);
         auto context = new Context(&request);
         middlewareManager.handleRequest(context);
+
 
         if(rc < 0){
             //ошибка при получении запроса
