@@ -7,14 +7,8 @@
 int main(int argc, char *argv[]) {
     auto app = App();
     auto router = Router();
-//    auto f = [](Context *context, const NextFunc &next) {
-//        context->write(context->request->body["mitms"]);
-//        next();
-//    };
-//    router.addHandler("/", f);
     router.addHandler("/", [](Context *context, const NextFunc &next) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-        context->write(std::string("Hello"));
+        context->write(nlohmann::json::parse(context->request->body)["mitms"].dump());
         next();
     });
 
