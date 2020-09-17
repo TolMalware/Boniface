@@ -22,14 +22,6 @@ Request::Request(FCGX_Request *request) {
     this->type = std::string(FCGX_GetParam("CONTENT_TYPE", request->envp));
 
     this->query = parseQuery(querystring);
-
-    int len;
-    char *buf = new char[1024];
-    while ((len = FCGX_GetStr(buf, 1024, request->in)) > 0) {
-        for (int j = 0; j < len; ++j) {
-            // TODO: Добавить эти байты в body
-        }
-    }
 }
 
 std::string Request::get(const std::string& field) const {
