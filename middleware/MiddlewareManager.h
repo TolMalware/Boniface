@@ -25,9 +25,9 @@ public:
 
     MiddlewareManager();
 
-    static Middleware compose(std::list<Middleware> *middleware);
-    std::list<Middleware>* middlewares = new std::list<Middleware>;
-    Middleware composedMiddleware;
+    static Middleware * compose(std::list<Middleware*> *middleware);
+    std::list<Middleware*>* middlewares = new std::list<Middleware*>;
+    Middleware* composedMiddleware;
 
     void handleRequest(Context* context);
     void composeMiddleware();

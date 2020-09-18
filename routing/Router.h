@@ -9,8 +9,8 @@
 
 
 class Router {
-    std::map<std::string, std::list<Middleware>> *handlers_map;;
-    std::list<Middleware> *getHandler(const std::string &url);
+    std::map<std::string, std::list<Middleware*>*> *handlers_map;
+    std::list<Middleware *> * getHandler(const std::string &url);
 
 public:
     Middleware getRoutingMiddleware();
