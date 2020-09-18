@@ -4,6 +4,9 @@
 
 Middleware * MiddlewareManager::compose(std::list<Middleware*> *middlewares) {
   auto it = middlewares->begin();
+  if (middlewares->size()==1){
+    return *middlewares->begin();
+  }
   while (it != middlewares->end()) {
     Middleware* current = *it;
     it++;
@@ -40,6 +43,7 @@ void Middleware::handle_request(Context *context) {
 
 Middleware::Middleware(MiddlewareFunc handler) {
   this->handler = std::move(handler);
+  this->nextMiddleware = nullptr;
 }
 
 Middleware::Middleware() {

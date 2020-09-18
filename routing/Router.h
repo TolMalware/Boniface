@@ -13,7 +13,7 @@ class Router {
     std::list<Middleware *> * getHandler(const std::string &url);
 
 public:
-    Middleware getRoutingMiddleware();
+    Middleware * getRoutingMiddleware();
 
     Router();
 
