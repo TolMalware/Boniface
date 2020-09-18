@@ -7,7 +7,7 @@ int main() {
     auto router = Router();
     router.addHandler("/hello", [](Context *context) {
         context->write("dfsfsfggedgwsedadsd");
-    });
+    }, {"POST"});
 
     app.middlewareManager.middlewares->push_back(router.getRoutingMiddleware());
 

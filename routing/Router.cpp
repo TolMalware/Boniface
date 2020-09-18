@@ -2,8 +2,10 @@
 #include <vector>
 #include "Router.h"
 
-void Router::addHandler(const std::string &url, const MiddlewareFunc &handler) {
-    auto middleware = new Middleware(handler);
+void Router::addHandler(const std::string &url,
+                        const MiddlewareFunc &handler,
+                        const std::vector<std::string>& methods = {"GET", "POST", "PUT", "DELETE"}) {
+    auto middleware = new Middleware(handler, methods);
     if (this->handlers_map->count(url) == 0) {
         this->handlers_map->insert({url, new std::list<Middleware *>()});
     }

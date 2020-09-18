@@ -19,6 +19,7 @@ public:
 
 //    void addHandler(const std::string &url, const Middleware &handler);
     void addHandler(const std::string &url, const MiddlewareFunc& handler);
+  void addHandler(const std::string &url, const MiddlewareFunc &handler, const std::vector<std::string> &methods);
 };
 
 #endif //WEB_FRAMEWORK_ROUTER_H

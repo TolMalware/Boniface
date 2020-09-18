@@ -13,7 +13,8 @@ class Middleware{
 public:
     Middleware();
 
-    Middleware* nextMiddleware{};
+  Middleware(const MiddlewareFunc& function, const std::vector<std::string>& vector);
+  Middleware* nextMiddleware{};
     std::vector<std::string> methods;
     MiddlewareFunc handler;
     explicit Middleware(MiddlewareFunc handler);

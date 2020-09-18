@@ -48,3 +48,8 @@ Middleware::Middleware(MiddlewareFunc handler) {
 
 Middleware::Middleware() {
 }
+Middleware::Middleware(const MiddlewareFunc& function, const std::vector<std::string>& vector) {
+    this->handler = function;
+    this->nextMiddleware = nullptr;
+    this->methods = vector;
+}
