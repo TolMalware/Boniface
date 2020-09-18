@@ -4,18 +4,17 @@
 
 #include <list>
 #include <functional>
+#include <vector>
 #include "../context/Context.h"
 
-using NextFunc = std::function<void(void)>;
 using MiddlewareFunc = std::function<void(Context*)>;
-using MiddlewareIterator = std::_List_iterator<MiddlewareFunc>;
 
 class Middleware{
 public:
     Middleware();
 
     Middleware* nextMiddleware{};
-    std::string methods;
+    std::vector<std::string> methods;
     MiddlewareFunc handler;
     explicit Middleware(MiddlewareFunc handler);
     void handle_request(Context* context);

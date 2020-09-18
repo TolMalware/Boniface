@@ -3,21 +3,11 @@
 #include "MiddlewareManager.h"
 
 Middleware MiddlewareManager::compose(std::list<Middleware> *middlewares) {
-//    auto it = middlewares->begin();
-//    if (!middlewares->empty()){
-//        exit(1);
-//    while (it != middlewares->end()) {
-//        exit(1);
-//        Middleware current = *it;
-//        exit(1);
-//        current.nextMiddleware  =&*it;
-//        exit(1);
-////            ++it;
-////            auto nextIt = it;
-////            --it;
-////        *it->nextMiddleware = *it++;
-//    }}
-//    exit(2);
+    auto it = middlewares->begin();
+    if (!middlewares->empty()){
+    while (it != middlewares->end()) {
+        Middleware current = *it;
+        current.nextMiddleware  =&*it;
     return *middlewares->begin();
 //    return [middleware](Context *context, NextFunc next) {
 //            if (middleware->empty()) return;
@@ -61,8 +51,6 @@ MiddlewareManager::MiddlewareManager() {
 }
 
 void Middleware::handle_request(Context *context){
-//    std::cout << this->methods << std::endl;
-    handler = [this](Context *context) { context->write(std::string("hi")); };
     handler(context);
     if (this->nextMiddleware != nullptr) {
         this->nextMiddleware->handle_request(context);
