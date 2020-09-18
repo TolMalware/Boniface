@@ -5,7 +5,6 @@
 #include <string>
 #include <map>
 #include <fcgiapp.h>
-#include "../../json/json.hpp"
 
 class Request {
 public:

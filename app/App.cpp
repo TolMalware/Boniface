@@ -1,6 +1,7 @@
 #include "App.h"
 #include <future>
 #include <iostream>
+#include <vector>
 
 std::mutex mtx;
 App::App() {
@@ -9,14 +10,19 @@ App::App() {
 }
 
 
+
+auto a = Middleware([](Context *context) {
+  std::cout<<"111111111";
+  context->write(std::string("hi")); });
+
 void App::run(){
     FCGX_Request request;
     if(FCGX_InitRequest(&request, socketId, 0) != 0)
     {
         printf("Can not init request\n");
     }
-    auto a = new Context();
-    middlewareManager.composedMiddleware.handler(a);
+//    auto a = new Context();
+//    middlewareManager.composedMiddleware.handler(a);
     while (true){
         auto rc = FCGX_Accept_r(&request);
         auto context = new Context(&request);
@@ -39,6 +45,7 @@ void App::run(){
 void App::start(const char *address){
     socketId = FCGX_OpenSocket(address, 20);
     std::cout<< this->middlewareManager.composedMiddleware.methods;
+  this->middlewareManager.middlewares->emplace_front(a);
     middlewareManager.composeMiddleware();
     std::vector<std::thread> clients;
 //    for (int i=0; i<2; i++){

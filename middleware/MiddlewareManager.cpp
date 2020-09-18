@@ -75,13 +75,4 @@ Middleware::Middleware(MiddlewareFunc handler) {
 }
 
 Middleware::Middleware() {
-    methods = "ddeded";
-    handler = [](Context *context) {
-        exit(23);
-        std::cout<<"111111111";
-        context->write(std::string("hi")); };
-//    auto a = new Context();
-//    handler(a);
-//    exit(14);
-
 }

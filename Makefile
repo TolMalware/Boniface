@@ -59,10 +59,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /snap/clion/124/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /snap/clion/126/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /snap/clion/124/bin/cmake/linux/bin/cmake -E rm -f
+RM = /snap/clion/126/bin/cmake/linux/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -79,7 +79,7 @@ CMAKE_BINARY_DIR = /home/daniltolmachev/Boniface
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/snap/clion/124/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/snap/clion/126/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -90,7 +90,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/snap/clion/124/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/snap/clion/126/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -251,32 +251,32 @@ context/response/Response.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Boniface.dir/build.make CMakeFiles/Boniface.dir/context/response/Response.cpp.s
 .PHONY : context/response/Response.cpp.s
 
-main.o: main.cpp.o
+examples/main.o: examples/main.cpp.o
 
-.PHONY : main.o
+.PHONY : examples/main.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Boniface.dir/build.make CMakeFiles/Boniface.dir/main.cpp.o
-.PHONY : main.cpp.o
+examples/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Boniface.dir/build.make CMakeFiles/Boniface.dir/examples/main.cpp.o
+.PHONY : examples/main.cpp.o
 
-main.i: main.cpp.i
+examples/main.i: examples/main.cpp.i
 
-.PHONY : main.i
+.PHONY : examples/main.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Boniface.dir/build.make CMakeFiles/Boniface.dir/main.cpp.i
-.PHONY : main.cpp.i
+examples/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Boniface.dir/build.make CMakeFiles/Boniface.dir/examples/main.cpp.i
+.PHONY : examples/main.cpp.i
 
-main.s: main.cpp.s
+examples/main.s: examples/main.cpp.s
 
-.PHONY : main.s
+.PHONY : examples/main.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Boniface.dir/build.make CMakeFiles/Boniface.dir/main.cpp.s
-.PHONY : main.cpp.s
+examples/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Boniface.dir/build.make CMakeFiles/Boniface.dir/examples/main.cpp.s
+.PHONY : examples/main.cpp.s
 
 middleware/MiddlewareManager.o: middleware/MiddlewareManager.cpp.o
 
@@ -353,9 +353,9 @@ help:
 	@echo "... context/response/Response.o"
 	@echo "... context/response/Response.i"
 	@echo "... context/response/Response.s"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... examples/main.o"
+	@echo "... examples/main.i"
+	@echo "... examples/main.s"
 	@echo "... middleware/MiddlewareManager.o"
 	@echo "... middleware/MiddlewareManager.i"
 	@echo "... middleware/MiddlewareManager.s"
