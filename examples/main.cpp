@@ -2,18 +2,29 @@
 #include "../app/App.h"
 #include "../routing/Router.h"
 #include "user.h"
+#include "../json/json.hpp"
 
 int main() {
-
-    auto u = User::get("hello","password");
-    auto g = User::create("new user","password");
-    W.commit();
-    std::cout<<g.login;
-    exit(120);
+//    W.commit();
     auto app = App();
     auto router = Router();
-    router.addHandler("/hello", [](Context *context) {
-        context->write("dfsfsfggedgwsedadsd");
+    router.addHandler("/", [](Context *context) {
+        auto data = nlohmann::json::parse(context->request->body);
+        auto u = User::create(data["login"],data["password"]);
+        std::map<std::string,std::string> result = {{"login",u.login},{"password", u.password}};
+        context->write(nlohmann::json(result).dump());
+        context->response->set_status(201);
+    }, {"POST"});
+
+    router.addHandler("/get_user", [](Context *context) {
+        auto data = nlohmann::json::parse(context->request->body);
+        try {
+            User u = User::get(data["login"], data["password"]);
+            std::map<std::string,std::string> result = {{"login",u.login},{"password", u.password}};
+            context->write(nlohmann::json(result).dump());
+        } catch (UserDoesNotExist e) {
+            context->write(e.what());
+        }
     }, {"POST"});
 
     app.middlewareManager.middlewares->push_back(router.getRoutingMiddleware());

@@ -11,7 +11,6 @@
 #include <utility>
 
 auto C = new pqxx::connection("postgresql://root:123456@localhost/boniface");
-pqxx::work W{*C};
 
 //
 //std::cout << "Found " << R.size() << "employees:\n";
@@ -27,19 +26,21 @@ struct UserDoesNotExist : public std::exception {
 class User {
 
     User(std::string login, std::string password) {
-        login = login;
-        password = password;
+        this->login = login;
+        this->password = password;
     }
 
 public:
-    static User get(std::string login, std::string password) {
+    static User get(const std::string& login, const std::string& password) {
+        pqxx::work W{*C};
         std::stringstream ss;
         ss << "SELECT login, password FROM public.user where login=" << W.quote(login) << " and password="
            << W.quote(password);
+        ss.flush();
         pqxx::result R{W.exec(ss)};
 //        W.commit();
         if (!R.empty()) {
-            return User(std::move(login), std::move(password));
+            return User(login, password);
         } else {
             throw UserDoesNotExist();
         }
@@ -47,14 +48,11 @@ public:
     }
 
     static User create(const std::string &login, const std::string &password) {
-        std::stringstream ss;
-        "INSERT INTO public.\"user\" (id, login, password) VALUES (DEFAULT, 'hello', 'password')";
+        pqxx::work W{*C};
         C->prepare("create_user", "INSERT INTO public.user (id, login, password) VALUES (DEFAULT, $1, $2)");
         W.exec_prepared("create_user", login, password);
 
-//        W.commit();
-//        pqxx::result R{};
-
+        W.commit();
         return User::get(login, password);
     }
 
