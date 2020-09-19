@@ -5,7 +5,6 @@
 #include "../json/json.hpp"
 
 int main() {
-//    W.commit();
     auto app = App();
     auto router = Router();
     router.addHandler("/", [](Context *context) {

@@ -18,7 +18,7 @@ auto C = new pqxx::connection("postgresql://root:123456@localhost/boniface");
 //std::cout << row[0].c_str() << " "<< row[1].c_str()<<'\n';
 
 struct UserDoesNotExist : public std::exception {
-    const char *what() const throw() {
+    [[nodiscard]] const char *what() const noexcept override {
         return "UserDoesNotExist";
     }
 };
@@ -26,8 +26,8 @@ struct UserDoesNotExist : public std::exception {
 class User {
 
     User(std::string login, std::string password) {
-        this->login = login;
-        this->password = password;
+        this->login = std::move(login);
+        this->password = std::move(password);
     }
 
 public:
@@ -36,9 +36,7 @@ public:
         std::stringstream ss;
         ss << "SELECT login, password FROM public.user where login=" << W.quote(login) << " and password="
            << W.quote(password);
-        ss.flush();
         pqxx::result R{W.exec(ss)};
-//        W.commit();
         if (!R.empty()) {
             return User(login, password);
         } else {
@@ -51,7 +49,6 @@ public:
         pqxx::work W{*C};
         C->prepare("create_user", "INSERT INTO public.user (id, login, password) VALUES (DEFAULT, $1, $2)");
         W.exec_prepared("create_user", login, password);
-
         W.commit();
         return User::get(login, password);
     }
