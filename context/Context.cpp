@@ -1,3 +1,4 @@
+#include <cstring>
 #include "Context.h"
 
 Context::Context(FCGX_Request *fcgxRequest) {
@@ -7,7 +8,7 @@ Context::Context(FCGX_Request *fcgxRequest) {
 }
 
 void Context::write(const std::string &data) const {
-    this->response->body = data;
+    strcpy(this->response->body, data.c_str());
 }
 
 Context::Context() {

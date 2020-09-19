@@ -11,7 +11,7 @@ public:
 
     std::map<std::string, std::string> *headers;
     int status;
-    std::string body;
+    char* body;
 
     std::string type;
     int length;

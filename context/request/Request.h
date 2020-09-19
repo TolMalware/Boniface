@@ -19,8 +19,7 @@ public:
     std::string port;
     std::string path;
     std::string querystring;
-    std::string body;
-
+    char* body;
     std::string host;
     std::string origin;
     std::string search;
@@ -28,7 +27,7 @@ public:
     std::string href;
 
 
-    int length;
+    size_t length;
     std::string type;
 
     std::map<std::string, std::string> *query;
