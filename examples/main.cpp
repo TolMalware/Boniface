@@ -9,8 +9,9 @@ int main() {
     auto router = Router();
     router.addHandler("/", [](Context *context) {
         auto data = nlohmann::json::parse(context->request->body);
-        auto u = User::create(data["login"],data["password"]);
-        std::map<std::string,std::string> result = {{"login",u.login},{"password", u.password}};
+        auto u = User::create(data["login"], data["password"]);
+        std::map<std::string, std::string> result = {{"login",    u.login},
+                                                     {"password", u.password}};
         context->write(nlohmann::json(result).dump());
         context->response->set_status(201);
     }, {"POST"});
@@ -19,7 +20,8 @@ int main() {
         auto data = nlohmann::json::parse(context->request->body);
         try {
             User u = User::get(data["login"], data["password"]);
-            std::map<std::string,std::string> result = {{"login",u.login},{"password", u.password}};
+            std::map<std::string, std::string> result = {{"login",    u.login},
+                                                         {"password", u.password}};
             context->write(nlohmann::json(result).dump());
         } catch (UserDoesNotExist e) {
             context->write(e.what());
