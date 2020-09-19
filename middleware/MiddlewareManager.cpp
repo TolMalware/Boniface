@@ -36,8 +36,7 @@ MiddlewareManager::MiddlewareManager() {
 
 void Middleware::handle_request(Context *context) {
     if (std::find(std::begin(methods), std::end(methods),context->request->method)==std::end(this->methods)){
-        context->response->body = "401";
-        context->response->set_status(401);
+        MethodNotAllowedMiddleware::handler(context);
         return;
     }
     handler(context);

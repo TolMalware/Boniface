@@ -19,14 +19,7 @@ std::list<Middleware *> *Router::getHandler(const std::string &url) {
 Middleware *Router::getRoutingMiddleware() {
     return new Middleware([this](Context *context) {
       if (this->handlers_map->count(context->request->url) == 0) {
-          auto not_found = new std::list<Middleware *>;
-          auto f = [](Context *context) {
-            context->response->body = "404";
-            context->response->set_status(404);
-          };
-
-          not_found->emplace_back(new Middleware(f));
-          MiddlewareManager::compose(not_found)->handle_request(context);
+          NotFoundMiddleware::handler(context);
 
       } else {
           auto handler = this->getHandler(context->request->url);
