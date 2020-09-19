@@ -26,7 +26,7 @@ int main() {
         } catch (UserDoesNotExist e) {
             context->write(e.what());
         }
-    }, {"POST"});
+    });
 
     app.middlewareManager.middlewares->push_back(router.getRoutingMiddleware());
 

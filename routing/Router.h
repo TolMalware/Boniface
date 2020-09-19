@@ -18,8 +18,8 @@ public:
     Router();
 
 //    void addHandler(const std::string &url, const Middleware &handler);
-    void addHandler(const std::string &url, const MiddlewareFunc& handler);
-  void addHandler(const std::string &url, const MiddlewareFunc &handler, const std::vector<std::string> &methods);
+//    void addHandler(const std::string &url, const MiddlewareFunc& handler);
+    void addHandler(const std::string &url, const MiddlewareFunc &handler, const std::vector<std::string> &methods={"GET", "POST", "PUT", "DELETE"});
 };
 
 #endif //WEB_FRAMEWORK_ROUTER_H
