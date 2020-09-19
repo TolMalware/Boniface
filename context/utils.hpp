@@ -6,6 +6,7 @@
 #include <iostream>
 #include <map>
 #include <fcgio.h>
+#include <cstring>
 
 
 const unsigned long STDIN_MAX = 1000000;
@@ -67,20 +68,12 @@ int parseInt(char *string) {
     }
 }
 
-std::string get_body(FCGX_Request *request) {
+void get_body(FCGX_Request *request, char *body) {
     auto len = parseInt(FCGX_GetParam("CONTENT_LENGTH", request->envp));
-    if (len > 0) {
-        char content[len];
-        for (int i = 0; i < len; i++) {
-            auto ch = FCGX_GetChar(request->in);
-            content[i] = ch;
-        }
-        content[len] = '\0';
-
-        return std::string(content);
-    } else {
-        return std::string();
+    for (size_t i = 0; i < len; i++) {
+        body[i] = FCGX_GetChar(request->in);
     }
+    body[len] = '\0';
 };
 
 

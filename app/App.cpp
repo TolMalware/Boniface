@@ -2,6 +2,8 @@
 #include <future>
 #include <iostream>
 #include <vector>
+#include <cstring>
+#include <fstream>
 
 App::App() {
     this->middlewareManager = MiddlewareManager();
@@ -25,7 +27,9 @@ void App::run() {
         auto str_header = context->response->headers_to_string();
         FCGX_PutS(str_header.c_str(), request.out);
         FCGX_PutS("Content-type: application/json\r\n\r\n", request.out);
-        FCGX_PutS(context->response->body.c_str(), request.out);
+        for (size_t i = 0; i < strlen(context->response->body); i++) {
+            FCGX_PutChar(context->response->body[i], request.out);
+        }
         FCGX_Finish_r(&request);
     }
 
@@ -34,13 +38,13 @@ void App::run() {
 void App::start(const char *address) {
     socketId = FCGX_OpenSocket(address, 20);
     middlewareManager.composeMiddleware();
-    std::vector<std::thread> clients;
-    for (int i = 0; i < 2; i++) {
-        std::thread T(&App::run, this);
-        clients.push_back(std::move(T));
-    }
-    for (auto &t:clients) {
-        t.join();
-    }
-//    this->run();
+//    std::vector<std::thread> clients;
+//    for (int i = 0; i < 2; i++) {
+//        std::thread T(&App::run, this);
+//        clients.push_back(std::move(T));
+//    }
+//    for (auto &t:clients) {
+//        t.join();
+//    }
+    this->run();
 }
