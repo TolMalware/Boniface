@@ -12,11 +12,6 @@
 
 auto C = new pqxx::connection("postgresql://root:123456@localhost/boniface");
 
-//
-//std::cout << "Found " << R.size() << "employees:\n";
-//for (auto row: R)
-//std::cout << row[0].c_str() << " "<< row[1].c_str()<<'\n';
-
 struct UserDoesNotExist : public std::exception {
     [[nodiscard]] const char *what() const noexcept override {
         return "UserDoesNotExist";
