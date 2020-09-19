@@ -34,13 +34,13 @@ void App::run() {
 void App::start(const char *address) {
     socketId = FCGX_OpenSocket(address, 20);
     middlewareManager.composeMiddleware();
-//    std::vector<std::thread> clients;
-//    for (int i = 0; i < 2; i++) {
-//        std::thread T(&App::run, this);
-//        clients.push_back(std::move(T));
-//    }
-//    for (auto &t:clients) {
-//        t.join();
-//    }
-    this->run();
+    std::vector<std::thread> clients;
+    for (int i = 0; i < 2; i++) {
+        std::thread T(&App::run, this);
+        clients.push_back(std::move(T));
+    }
+    for (auto &t:clients) {
+        t.join();
+    }
+//    this->run();
 }
