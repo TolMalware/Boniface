@@ -5,16 +5,14 @@
 
 #include "../middleware/MiddlewareManager.h"
 
-static int socketId;
-
 class App {
+private:
+    MiddlewareManager middlewareManager;
 
 public:
     App();
 
-    MiddlewareManager middlewareManager;
-
-    void run();
+    App& use(Middleware *middleware);
     void start(const char *address);
 };
 
