@@ -5,12 +5,9 @@
 StrictLayer::StrictLayer(std::string path, uint8_t methods, Middleware *middleware) :
     Layer(middleware),
     path(std::move(path)),
-    methods(methods) {
-    std::cout << this->path << std::endl;
-}
+    methods(methods) {}
 
 bool StrictLayer::match(Context *context) {
-    std::cout << context->request->path << " --- " << this->path << std::endl;
     return context->request->path == this->path && context->request->methodMask & this->methods;
 }
 
