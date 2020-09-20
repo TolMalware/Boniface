@@ -1,7 +1,7 @@
 #include "../app/App.h"
 #include "../router/Router.h"
 
-class MainMiddleware : public Middleware {
+class MainHandler : public Middleware {
 public:
     void handle(Context *context) override {
         context->response->body = "Hello world";
@@ -13,7 +13,7 @@ int main() {
     auto router = Router();
     auto router1 = Router();
 
-    router.get("/", new MainMiddleware());
+    router.get("/", new MainHandler());
     router1.post("/", [](Context *context) {
         context->response->body = "POST";
     });
