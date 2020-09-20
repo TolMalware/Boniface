@@ -13,8 +13,8 @@ int main() {
     auto router = Router();
     auto router1 = Router();
 
-    router.use("/", GET_METHOD, new MainMiddleware());
-    router1.use("/", POST_METHOD, [](Context *context) {
+    router.get("/", new MainMiddleware());
+    router1.post("/", [](Context *context) {
         context->response->body = "POST";
     });
 
