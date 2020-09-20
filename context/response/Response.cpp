@@ -1,3 +1,4 @@
+#include <cstring>
 #include "Response.h"
 
 Response::Response() {
@@ -38,7 +39,8 @@ void Response::remove(const std::string& field) const {
 }
 
 void Response::send(const std::string& string) {
-    this->body = const_cast<char *>(string.c_str());
+    this->body = new char [string.length()];
+    strcpy(this->body, string.c_str());
     this->length = static_cast<int>(string.length());
 }
 

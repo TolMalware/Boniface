@@ -4,7 +4,7 @@
 class MainHandler : public Middleware {
 public:
     void handle(Context *context) override {
-        context->response->body = "Hello world";
+        context->response->send("hello world");
     }
 };
 
@@ -15,7 +15,7 @@ int main() {
 
     router.get("/", new MainHandler());
     router1.post("/", [](Context *context) {
-        context->response->body = "POST";
+        context->response->send("post");
     });
 
     app.use(router.getMiddleware());

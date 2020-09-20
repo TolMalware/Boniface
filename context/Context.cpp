@@ -7,9 +7,9 @@ Context::Context(FCGX_Request *fcgxRequest) {
     this->state = new std::map<std::string, void *>;
 }
 
-void Context::write(const std::string &data) const {
-    strcpy(this->response->body, data.c_str());
-}
+//void Context::write(const std::string &data) const {
+//    std::copy(data.begin(), data.end(), response->body);
+//}
 
 Context::Context() {
 
