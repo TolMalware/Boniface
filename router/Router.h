@@ -6,11 +6,11 @@
 #include <list>
 #include "../middleware/LambdaMiddleware.h"
 #include "Layer.h"
-#include "CacheKey.h"
 
 class Router {
 private:
     std::list<Layer*> layers;
+    std::map<CacheKey, Layer*> cache;
 
 public:
     Router();
@@ -20,6 +20,8 @@ public:
 
     Router &use(const std::string &path, uint8_t methods, Middleware *middleware);
     Router &use(const std::string &path, uint8_t methods, MiddlewareFunc middleware);
+
+    void cacheLayer(Layer *layer);
 };
 
 

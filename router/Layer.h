@@ -2,20 +2,22 @@
 #define BONIFACE_LAYER_H
 
 
+#include <vector>
 #include "../middleware/Middleware.h"
 #include "../context/Context.h"
+#include "CacheKey.h"
 
 class Layer {
 private:
-    std::string path;
-    uint8_t methods;
     Middleware *middleware;
 
 public:
-    Layer(const std::string &path, uint8_t methods, Middleware *middleware);
+    explicit Layer(Middleware *middleware);
 
-    bool match(Context *context);
     bool handle(Context *context);
+
+    virtual bool match(Context *context) = 0;
+    virtual std::vector<CacheKey> *getCacheKeys();
 };
 
 
