@@ -13,11 +13,12 @@ int main() {
     auto router = Router();
 
     router.GET("/", new MainHandler());
-    router.POST(
-        "/", [](Context *context) {
-            context->response->send("post");
-        }
-    );
+    router.POST("/", [](Context *context) {
+        context->response->send("post");
+    });
+    router.GET("/user", [](Context *context) {
+        context->response->send("user");
+    });
 
     app.use(router.getMiddleware());
     app.start("127.0.0.1:8000");
