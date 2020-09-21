@@ -2,8 +2,8 @@
 #include "StrictLayer.h"
 #include <iostream>
 
-StrictLayer::StrictLayer(std::string path, uint8_t methods, Middleware *middleware) :
-    Layer(middleware),
+StrictLayer::StrictLayer(std::string path, uint8_t methods, Handler *handler) :
+    Layer(handler),
     path(std::move(path)),
     methods(methods) {}
 

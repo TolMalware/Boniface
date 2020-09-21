@@ -2,14 +2,14 @@
 #define BONIFACE_MIDDLEWARE_H
 
 
-#include "../context/Context.h"
+#include "Handler.h"
 
-class Middleware {
+class Middleware : Handler {
 private:
     Middleware *next = nullptr;
 
 public:
-    virtual void handle(Context *context);
+    void handle(Context *context) override;
 
     Middleware* setNext(Middleware *middleware);
 };
