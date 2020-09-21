@@ -1,8 +1,13 @@
 #include "Router.h"
 #include "RouterMiddleware.h"
+#include "layer/TrulyLayer.h"
 #include "layer/StrictLayer.h"
+#include "handler/Handler404.h"
 
-Router::Router() {
+Router::Router() : Router(new TrulyLayer(new Handler404())) {}
+
+Router::Router(Layer *defaultLayer) {
+    this->defaultLayer = defaultLayer;
     this->layers = std::list<Layer*>();
     this->cache = std::map<CacheKey, Layer*>();
 }
@@ -26,7 +31,7 @@ Layer *Router::handle(Context *context) {
         }
     }
 
-    return nullptr;
+    return this->defaultLayer;
 }
 
 Middleware *Router::getMiddleware() {

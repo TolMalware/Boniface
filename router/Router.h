@@ -10,11 +10,13 @@
 
 class Router {
 private:
+    Layer *defaultLayer;
     std::list<Layer*> layers;
     std::map<CacheKey, Layer*> cache;
 
 public:
     Router();
+    explicit Router(Layer *defaultLayer);
 
     Layer *handle(Context *context);
     Middleware *getMiddleware();
