@@ -12,10 +12,12 @@ int main() {
     auto app = App();
     auto router = Router();
 
-    router.get("/", new MainHandler());
-    router.post("/", [](Context *context) {
-        context->response->send("post");
-    });
+    router.GET("/", new MainHandler());
+    router.POST(
+        "/", [](Context *context) {
+            context->response->send("post");
+        }
+    );
 
     app.use(router.getMiddleware());
     app.start("127.0.0.1:8000");

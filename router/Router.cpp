@@ -45,35 +45,35 @@ Router &Router::use(const std::string &path, uint8_t methods, MiddlewareFunc mid
     return this->use(path, methods, new LambdaMiddleware(middleware));
 }
 
-Router &Router::get(const std::string &path, Middleware *middleware) {
+Router &Router::GET(const std::string &path, Middleware *middleware) {
     return this->use(path, GET_METHOD, middleware);
 }
 
-Router &Router::get(const std::string &path, MiddlewareFunc middleware) {
+Router &Router::GET(const std::string &path, MiddlewareFunc middleware) {
     return this->use(path, GET_METHOD, new LambdaMiddleware(middleware));
 }
 
-Router &Router::post(const std::string &path, Middleware *middleware) {
+Router &Router::POST(const std::string &path, Middleware *middleware) {
     return this->use(path, POST_METHOD, middleware);
 }
 
-Router &Router::post(const std::string &path, MiddlewareFunc middleware) {
+Router &Router::POST(const std::string &path, MiddlewareFunc middleware) {
     return this->use(path, POST_METHOD, new LambdaMiddleware(middleware));
 }
 
-Router &Router::put(const std::string &path, Middleware *middleware) {
+Router &Router::PUT(const std::string &path, Middleware *middleware) {
     return this->use(path, PUT_METHOD, middleware);
 }
 
-Router &Router::put(const std::string &path, MiddlewareFunc middleware) {
+Router &Router::PUT(const std::string &path, MiddlewareFunc middleware) {
     return this->use(path, PUT_METHOD, new LambdaMiddleware(middleware));
 }
 
-Router &Router::deleteMethod(const std::string &path, Middleware *middleware) {
+Router &Router::DELETE(const std::string &path, Middleware *middleware) {
     return this->use(path, DELETE_METHOD, middleware);
 }
 
-Router &Router::deleteMethod(const std::string &path, MiddlewareFunc middleware) {
+Router &Router::DELETE(const std::string &path, MiddlewareFunc middleware) {
     return this->use(path, DELETE_METHOD, new LambdaMiddleware(middleware));
 }
 

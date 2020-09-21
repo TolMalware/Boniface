@@ -21,14 +21,14 @@ public:
     Router &use(const std::string &path, uint8_t methods, Middleware *middleware);
     Router &use(const std::string &path, uint8_t methods, MiddlewareFunc middleware);
 
-    Router &get(const std::string &path, Middleware *middleware);
-    Router &get(const std::string &path, MiddlewareFunc middleware);
-    Router &post(const std::string &path, Middleware *middleware);
-    Router &post(const std::string &path, MiddlewareFunc middleware);
-    Router &put(const std::string &path, Middleware *middleware);
-    Router &put(const std::string &path, MiddlewareFunc middleware);
-    Router &deleteMethod(const std::string &path, Middleware *middleware);
-    Router &deleteMethod(const std::string &path, MiddlewareFunc middleware);
+    Router &GET(const std::string &path, Middleware *middleware);
+    Router &GET(const std::string &path, MiddlewareFunc middleware);
+    Router &POST(const std::string &path, Middleware *middleware);
+    Router &POST(const std::string &path, MiddlewareFunc middleware);
+    Router &PUT(const std::string &path, Middleware *middleware);
+    Router &PUT(const std::string &path, MiddlewareFunc middleware);
+    Router &DELETE(const std::string &path, Middleware *middleware);
+    Router &DELETE(const std::string &path, MiddlewareFunc middleware);
 
     void cacheLayer(Layer *layer);
 };
