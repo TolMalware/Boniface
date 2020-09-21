@@ -8,4 +8,6 @@ void RouterMiddleware::handle(Context *context) {
     if (layer == nullptr) {
         Middleware::handle(context);
     }
+// if not found handler => this url not in router urls
+    context->response->set_status(404);
 }
