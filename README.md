@@ -7,6 +7,6 @@ The goal of the project is to reduce the complexity of developing the backend in
 <br />
 First of all, we are focused on RESTfull applications, so we do not have templates and template engines, and we also leave it up to you to work with the database and serialize/deserialize data.<br />
 <br />
-Overall we are getting inspired koa.js flash and battle. I hope you enjoy it, good luck!<br />
+Overall we are getting inspired koa.js flask and bottle. I hope you enjoy it, good luck!<br />
 <br />
 I use libfcgi  and libfcgi-dev for this project
