@@ -1,12 +1,12 @@
 #include "Layer.h"
 
-Layer::Layer(Middleware *middleware) : middleware(middleware) {}
+Layer::Layer(Handler *handler) : handler(handler) {}
 
 bool Layer::handle(Context *context) {
     bool matched = this->match(context);
 
     if (matched) {
-        this->middleware->handle(context);
+        this->handler->handle(context);
     }
 
     return matched;

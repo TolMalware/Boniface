@@ -1,6 +1,6 @@
 #include "Router.h"
 #include "RouterMiddleware.h"
-#include "StrictLayer.h"
+#include "layer/StrictLayer.h"
 
 Router::Router() {
     this->layers = std::list<Layer*>();
@@ -33,48 +33,48 @@ Middleware *Router::getMiddleware() {
     return new RouterMiddleware(this);
 }
 
-Router &Router::use(const std::string &path, uint8_t methods, Middleware *middleware) {
-    auto layer = new StrictLayer(path, methods, middleware);
+Router &Router::use(const std::string &path, uint8_t methods, Handler *handler) {
+    auto layer = new StrictLayer(path, methods, handler);
     this->layers.push_back(layer);
     this->cacheLayer(layer);
 
     return *this;
 }
 
-Router &Router::use(const std::string &path, uint8_t methods, MiddlewareFunc middleware) {
-    return this->use(path, methods, new LambdaMiddleware(middleware));
+Router &Router::use(const std::string &path, uint8_t methods, HandlerFunc handler) {
+    return this->use(path, methods, new LambdaHandler(handler));
 }
 
-Router &Router::GET(const std::string &path, Middleware *middleware) {
-    return this->use(path, GET_METHOD, middleware);
+Router &Router::GET(const std::string &path, Handler *handler) {
+    return this->use(path, GET_METHOD, handler);
 }
 
-Router &Router::GET(const std::string &path, MiddlewareFunc middleware) {
-    return this->use(path, GET_METHOD, new LambdaMiddleware(middleware));
+Router &Router::GET(const std::string &path, HandlerFunc handler) {
+    return this->use(path, GET_METHOD, new LambdaHandler(handler));
 }
 
-Router &Router::POST(const std::string &path, Middleware *middleware) {
-    return this->use(path, POST_METHOD, middleware);
+Router &Router::POST(const std::string &path, Handler *handler) {
+    return this->use(path, POST_METHOD, handler);
 }
 
-Router &Router::POST(const std::string &path, MiddlewareFunc middleware) {
-    return this->use(path, POST_METHOD, new LambdaMiddleware(middleware));
+Router &Router::POST(const std::string &path, HandlerFunc handler) {
+    return this->use(path, POST_METHOD, new LambdaHandler(handler));
 }
 
-Router &Router::PUT(const std::string &path, Middleware *middleware) {
-    return this->use(path, PUT_METHOD, middleware);
+Router &Router::PUT(const std::string &path, Handler *handler) {
+    return this->use(path, PUT_METHOD, handler);
 }
 
-Router &Router::PUT(const std::string &path, MiddlewareFunc middleware) {
-    return this->use(path, PUT_METHOD, new LambdaMiddleware(middleware));
+Router &Router::PUT(const std::string &path, HandlerFunc handler) {
+    return this->use(path, PUT_METHOD, new LambdaHandler(handler));
 }
 
-Router &Router::DELETE(const std::string &path, Middleware *middleware) {
-    return this->use(path, DELETE_METHOD, middleware);
+Router &Router::DELETE(const std::string &path, Handler *handler) {
+    return this->use(path, DELETE_METHOD, handler);
 }
 
-Router &Router::DELETE(const std::string &path, MiddlewareFunc middleware) {
-    return this->use(path, DELETE_METHOD, new LambdaMiddleware(middleware));
+Router &Router::DELETE(const std::string &path, HandlerFunc handler) {
+    return this->use(path, DELETE_METHOD, new LambdaHandler(handler));
 }
 
 void Router::cacheLayer(Layer *layer) {

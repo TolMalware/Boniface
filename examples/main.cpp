@@ -1,7 +1,7 @@
 #include "../app/App.h"
 #include "../router/Router.h"
 
-class MainHandler : public Middleware {
+class MainHandler : public Handler {
 public:
     void handle(Context *context) override {
         context->response->send("hello world");

@@ -3,16 +3,15 @@
 
 
 #include <vector>
-#include "../middleware/Middleware.h"
-#include "../context/Context.h"
-#include "CacheKey.h"
+#include "../../middleware/Handler.h"
+#include "../cache/CacheKey.h"
 
 class Layer {
 private:
-    Middleware *middleware;
+    Handler *handler;
 
 public:
-    explicit Layer(Middleware *middleware);
+    explicit Layer(Handler *handler);
 
     bool handle(Context *context);
 
