@@ -5,8 +5,8 @@ This library allows you to quickly prototype your web applications in C++. If yo
 <br />
 The goal of the project is to reduce the complexity of developing the backend in C++, since most of the available frameworks for C++ are quite difficult to install and configure, Boniface provides you with an easy and intuitive API for creating a Backend application.<br />
 <br />
-First of all, we are focused on RESTull applications, so we do not have templates and template engines, and we also leave it up to you to work with the database and serialize/deserialize data.<br />
+First of all, we are focused on RESTfull applications, so we do not have templates and template engines, and we also leave it up to you to work with the database and serialize/deserialize data.<br />
 <br />
-Overall we are getting inspired coa.js flash and battle. I hope you enjoy it, good luck!<br />
+Overall we are getting inspired koa.js flash and battle. I hope you enjoy it, good luck!<br />
 <br />
 I use libfcgi  and libfcgi-dev for this project
