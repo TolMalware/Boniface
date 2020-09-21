@@ -13,6 +13,8 @@ public:
     StrictLayer(std::string path, uint8_t methods, Handler *handler);
 
     bool match(Context *context) override;
+    bool matchUrl(Context *context) override;
+
     std::vector<CacheKey> *getCacheKeys() override;
 };
 

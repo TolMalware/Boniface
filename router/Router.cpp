@@ -2,12 +2,16 @@
 #include "RouterMiddleware.h"
 #include "layer/TrulyLayer.h"
 #include "layer/StrictLayer.h"
-#include "handler/Handler404.h"
+#include "handler/HandlerSetStatusCode.h"
 
-Router::Router() : Router(new TrulyLayer(new Handler404())) {}
+Router::Router() : Router(
+    new TrulyLayer(new HandlerSetStatusCode(404)), new TrulyLayer(new HandlerSetStatusCode(405))) {}
 
-Router::Router(Layer *defaultLayer) {
+Router::Router(Layer *defaultLayer) : Router(defaultLayer, new TrulyLayer(new HandlerSetStatusCode(405))) {}
+
+Router::Router(Layer *defaultLayer, Layer *defaultLayerForMatchedUrl) {
     this->defaultLayer = defaultLayer;
+    this->defaultLayerForMatchedUrl = defaultLayerForMatchedUrl;
     this->layers = std::list<Layer*>();
     this->cache = std::map<CacheKey, Layer*>();
 }
@@ -17,21 +21,26 @@ Layer *Router::handle(Context *context) {
     auto cachedLayer = this->cache.find(key);
 
     if (cachedLayer != this->cache.end()) {
-        auto layer = (*cachedLayer).second;
-        layer->handle(context);
-        return layer;
+        return (*cachedLayer).second->handle(context);
     }
 
-    for (auto const &layer : this->layers) {
-        bool handled = layer->handle(context);
+    bool matchedUrl = false;
 
-        if (handled) {
+    for (auto const &layer : this->layers) {
+        bool matched = layer->match(context);
+        matchedUrl = matchedUrl || matched || layer->matchUrl(context);
+
+        if (matched) {
             this->cacheLayer(layer);
-            return layer;
+            return layer->handle(context);
         }
     }
 
-    return this->defaultLayer;
+    if (matchedUrl) {
+        return this->defaultLayerForMatchedUrl->handle(context);
+    }
+
+    return this->defaultLayer->handle(context);
 }
 
 Middleware *Router::getMiddleware() {
