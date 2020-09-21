@@ -2,9 +2,9 @@
 #include "RouterMiddleware.h"
 #include "layer/TrulyLayer.h"
 #include "layer/StrictLayer.h"
-#include "handler/Handler404.h"
+#include "handler/HandlerSetStatusCode.h"
 
-Router::Router() : Router(new TrulyLayer(new Handler404())) {}
+Router::Router() : Router(new TrulyLayer(new HandlerSetStatusCode(404))) {}
 
 Router::Router(Layer *defaultLayer) {
     this->defaultLayer = defaultLayer;
