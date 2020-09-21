@@ -2,14 +2,13 @@
 
 Layer::Layer(Handler *handler) : handler(handler) {}
 
-bool Layer::handle(Context *context) {
-    bool matched = this->match(context);
+Layer *Layer::handle(Context *context) {
+    this->handler->handle(context);
+    return this;
+}
 
-    if (matched) {
-        this->handler->handle(context);
-    }
-
-    return matched;
+bool Layer::matchUrl(Context *context) {
+    return this->match(context);
 }
 
 std::vector<CacheKey> *Layer::getCacheKeys() {

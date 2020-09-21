@@ -13,9 +13,11 @@ private:
 public:
     explicit Layer(Handler *handler);
 
-    bool handle(Context *context);
+    Layer *handle(Context *context);
 
     virtual bool match(Context *context) = 0;
+    virtual bool matchUrl(Context *context);
+
     virtual std::vector<CacheKey> *getCacheKeys();
 };
 
