@@ -3,9 +3,9 @@
 RouterMiddleware::RouterMiddleware(Router *router) : router(router) {}
 
 void RouterMiddleware::handle(Context *context) {
-    auto layer = router->handle(context);
+    bool handled = router->handle(context);
 
-    if (layer == nullptr) {
+    if (!handled) {
         Middleware::handle(context);
     }
 }

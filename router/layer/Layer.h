@@ -12,7 +12,7 @@ private:
 public:
     explicit Layer(Handler *handler);
 
-    Layer *handle(Context *context);
+    void handle(Context *context);
 
     virtual bool match(Context *context) = 0;
     virtual bool matchUrl(Context *context);

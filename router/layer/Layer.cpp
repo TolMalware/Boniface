@@ -2,9 +2,8 @@
 
 Layer::Layer(Handler *handler) : handler(handler) {}
 
-Layer *Layer::handle(Context *context) {
+void Layer::handle(Context *context) {
     this->handler->handle(context);
-    return this;
 }
 
 bool Layer::matchUrl(Context *context) {

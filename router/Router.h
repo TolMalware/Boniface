@@ -10,16 +10,16 @@
 
 class Router {
 private:
-    Layer *defaultLayer;
-    Layer *defaultLayerForMatchedUrl;
+    Handler *defaultHandler;
+    Handler *defaultHandlerForMatchedUrl;
     std::list<Layer*> layers;
 
 public:
     Router();
-    explicit Router(Layer *defaultLayer);
-    explicit Router(Layer *defaultLayer, Layer *defaultLayerForMatchedUrl);
+    explicit Router(Handler *defaultLayer);
+    explicit Router(Handler *defaultHandler, Handler *defaultHandlerForMatchedUrl);
 
-    Layer *handle(Context *context);
+    bool handle(Context *context);
     Middleware *getMiddleware();
 
     Router &route(const std::string &path, uint8_t methods, Handler *handler);
