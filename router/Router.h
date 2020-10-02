@@ -13,7 +13,6 @@ private:
     Layer *defaultLayer;
     Layer *defaultLayerForMatchedUrl;
     std::list<Layer*> layers;
-    std::map<CacheKey, Layer*> cache;
 
 public:
     Router();
@@ -34,8 +33,6 @@ public:
     Router &PUT(const std::string &path, HandlerFunc handler);
     Router &DELETE(const std::string &path, Handler *handler);
     Router &DELETE(const std::string &path, HandlerFunc handler);
-
-    void cacheLayer(Layer *layer);
 };
 
 

@@ -13,17 +13,9 @@ Router::Router(Layer *defaultLayer, Layer *defaultLayerForMatchedUrl) {
     this->defaultLayer = defaultLayer;
     this->defaultLayerForMatchedUrl = defaultLayerForMatchedUrl;
     this->layers = std::list<Layer*>();
-    this->cache = std::map<CacheKey, Layer*>();
 }
 
 Layer *Router::handle(Context *context) {
-    auto key = CacheKey(context->request->path, context->request->methodMask);
-    auto cachedLayer = this->cache.find(key);
-
-    if (cachedLayer != this->cache.end()) {
-        return (*cachedLayer).second->handle(context);
-    }
-
     bool matchedUrl = false;
 
     for (auto const &layer : this->layers) {
@@ -31,7 +23,6 @@ Layer *Router::handle(Context *context) {
         matchedUrl = matchedUrl || matched || layer->matchUrl(context);
 
         if (matched) {
-            this->cacheLayer(layer);
             return layer->handle(context);
         }
     }
@@ -50,7 +41,6 @@ Middleware *Router::getMiddleware() {
 Router &Router::route(const std::string &path, uint8_t methods, Handler *handler) {
     auto layer = new StrictLayer(path, methods, handler);
     this->layers.push_back(layer);
-    this->cacheLayer(layer);
 
     return *this;
 }
@@ -89,15 +79,4 @@ Router &Router::DELETE(const std::string &path, Handler *handler) {
 
 Router &Router::DELETE(const std::string &path, HandlerFunc handler) {
     return this->route(path, DELETE_METHOD, new LambdaHandler(handler));
-}
-
-void Router::cacheLayer(Layer *layer) {
-    auto keys = layer->getCacheKeys();
-    if (keys == nullptr) return;
-
-    for (auto const &key : *keys)  {
-        if (this->cache.find(key) != this->cache.end()) {
-            this->cache.insert(std::make_pair(key, layer));
-        }
-    }
 }

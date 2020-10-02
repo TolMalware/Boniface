@@ -10,7 +10,3 @@ Layer *Layer::handle(Context *context) {
 bool Layer::matchUrl(Context *context) {
     return this->match(context);
 }
-
-std::vector<CacheKey> *Layer::getCacheKeys() {
-    return nullptr;
-}
