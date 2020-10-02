@@ -23,8 +23,8 @@ public:
     Layer *handle(Context *context);
     Middleware *getMiddleware();
 
-    Router &use(const std::string &path, uint8_t methods, Handler *handler);
-    Router &use(const std::string &path, uint8_t methods, HandlerFunc handler);
+    Router &route(const std::string &path, uint8_t methods, Handler *handler);
+    Router &route(const std::string &path, uint8_t methods, HandlerFunc handler);
 
     Router &GET(const std::string &path, Handler *handler);
     Router &GET(const std::string &path, HandlerFunc handler);
