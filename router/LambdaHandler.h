@@ -5,14 +5,14 @@
 #include <functional>
 #include "../middleware/Handler.h"
 
-using HandlerFunc = std::function<void(Context*)>;
+using HandlerFunc = void (*) (Context *);
 
 class LambdaHandler : public Handler {
 private:
-    HandlerFunc &func;
+    HandlerFunc func;
 
 public:
-    explicit LambdaHandler(HandlerFunc &func);
+    explicit LambdaHandler(HandlerFunc func);
 
     void handle(Context *context) override;
 };
