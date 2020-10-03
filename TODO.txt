@@ -1,0 +1,4 @@
+- union handler and middleware (replace handler to middleware in router)
+- add middlewares to router (multiple middlewares in one layer, add middleware manager to layer)
+- make sub-routers (prefix in child router)
+- fix lambdas (transform from function pointer to function object, give opportunity to capture variables)
