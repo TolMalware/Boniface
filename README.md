@@ -9,4 +9,4 @@ First of all, we are focused on RESTfull applications, so we do not have templat
 <br />
 Overall we are getting inspired koa.js flask and bottle. I hope you enjoy it, good luck!<br />
 <br />
-I use libfcgi  and libfcgi-dev for this project
+I use libfcgi  and libfcgi-dev for this project.
