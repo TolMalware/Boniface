@@ -19,7 +19,6 @@ int main() {
     });
     router.GET("/user", [](Context *context) {
         context->response->send("user");
-        std::cout<<context->request->method;
 
     });
 
