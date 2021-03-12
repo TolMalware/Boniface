@@ -12,8 +12,10 @@ App &App::use(Middleware *middleware) {
     return *this;
 }
 
-void App::start(const char *address) {
-    int socketId = FCGX_OpenSocket(address, 20);
+
+void App::start(const std::string& host, const int port) {
+    const auto address = host + ":"+ std::to_string(port);
+    int socketId = FCGX_OpenSocket(address.c_str(),20);
     FCGX_Request request;
 
     if (FCGX_InitRequest(&request, socketId, 0) != 0) {

@@ -13,7 +13,7 @@ public:
     App();
 
     App& use(Middleware *middleware);
-    void start(const char *address);
+    void start(const std::string& host, int port);
 };
 
 #endif //WEB_FRAMEWORK_APP_H

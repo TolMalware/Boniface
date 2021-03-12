@@ -1,5 +1,6 @@
-#include "../app/App.h"
-#include "../router/Router.h"
+#include <iostream>
+#include "../src/app/App.h"
+#include "../src/router/Router.h"
 
 class MainHandler : public Handler {
 public:
@@ -18,10 +19,12 @@ int main() {
     });
     router.GET("/user", [](Context *context) {
         context->response->send("user");
+        std::cout<<context->request->method;
+
     });
 
     app.use(router.getMiddleware());
-    app.start("127.0.0.1:8000");
+    app.start("127.0.0.1", 8000);
 
     return 0;
 }
